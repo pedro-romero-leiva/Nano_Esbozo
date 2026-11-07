@@ -96,6 +96,11 @@ h1, h2 { text-wrap: balance; margin: 0; }
 .answers { max-width: 620px; width: 100%; margin: 0 auto; padding: 12px 0 calc(18px + var(--safe-b)); display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; min-height: 74px; border-top: 1px solid var(--line); }
 .answers button { border: 1.5px solid var(--ink); background: var(--card); color: var(--ink); border-radius: 999px; padding: 11px 16px; font-weight: 700; font-size: 15px; animation: rise .3s ease both; }
 .answers button:hover { background: var(--hl); color: var(--hl-ink); }
+.answers button.soon { opacity: .45; border-style: dashed; cursor: not-allowed; }
+.answers button.soon:hover { background: var(--card); color: var(--ink); }
+.answers button.soon small { font-size: 11px; font-weight: 800; margin-left: 6px; text-transform: uppercase; letter-spacing: .04em; }
+.answers button.nope { animation: nope .35s; }
+@keyframes nope { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
 /* buscando cursos */
 .ring { width: 132px; height: 132px; position: relative; margin: 0 auto; }
@@ -131,40 +136,90 @@ h1, h2 { text-wrap: balance; margin: 0; }
 .oc .pr { font-weight: 800; font-size: 15px; }
 @media (max-width: 420px) { .feat { grid-template-columns: 1fr; } .feat .pv { width: 64%; margin: 0 auto; } }
 
-/* tu curso: carrusel atrás, ruta y nodos */
-#s-shop .center.solo { max-width: 400px; }
-.stage { position: relative; width: 100%; display: grid; place-items: center; padding: 6px 0 4px; }
-.belt { position: absolute; left: -16px; right: -16px; top: 50%; transform: translateY(-50%); overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
-.belt .track { display: flex; gap: 12px; width: max-content; animation: belt 30s linear infinite; }
-@keyframes belt { to { transform: translateX(-50%); } }
-.cc { width: 108px; height: 150px; border-radius: 14px; color: #fff; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; opacity: .5; filter: saturate(.8); flex: none; }
-.cc b { font: 400 24px var(--display); } .cc span { font-size: 11.5px; font-weight: 700; line-height: 1.2; }
-.stage .pv { z-index: 2; }
-.bel-hint { display: grid; justify-items: center; gap: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; margin-top: 6px; }
-.bel-hint svg { animation: hint 1.3s ease-in-out infinite; }
-.route { width: 100%; text-align: left; display: grid; gap: 10px; margin-top: 18px; padding-top: 22px; border-top: 1.5px dashed var(--line); }
-.route h3 { margin: 0; font: 400 30px/1 var(--display); }
-.route .meta { font-size: 14px; }
-.route .sub { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; font-weight: 700; color: var(--muted); }
-.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; border: 2px solid var(--ink); }
-.legend .lf { border-color: var(--ink); background: var(--hl); } .legend .lb { border: 2px dashed var(--muted); } .legend .la { background: var(--muted); border-color: var(--muted); }
-.path { position: relative; display: grid; gap: 22px; padding: 10px 0 6px; }
-.path svg.wire { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-.node { position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; background: none; border: 0; padding: 0; color: var(--ink); text-align: left; width: max-content; max-width: 100%; }
-.node .dot { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; flex: none; font: 400 22px var(--display); background: var(--card); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink); transition: transform .15s; }
-.node:active .dot { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
-.node .lab { min-width: 0; } .node .lab b { display: block; font-size: 15px; line-height: 1.2; } .node .lab small { color: var(--muted); font-weight: 600; font-size: 12.5px; }
-.node.front .dot { background: var(--hl); color: var(--hl-ink); animation: glow 1.8s ease-in-out infinite; }
-.node.base .dot { background: var(--muted); border-color: var(--muted); color: var(--paper); box-shadow: 0 5px 0 rgba(0,0,0,.25); }
-.node.lock .dot { border-style: dashed; border-color: var(--muted); color: var(--muted); box-shadow: none; }
-.node.goal .dot { width: 74px; height: 74px; background: var(--ink); color: var(--paper); font-size: 30px; }
-.node.sel .dot { outline: 3px solid var(--hl); outline-offset: 4px; }
-.node .flag { position: absolute; left: 6px; top: -16px; background: var(--ink); color: var(--paper); font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; border-radius: 6px; padding: 3px 7px; white-space: nowrap; }
-.ninfo { background: var(--card); border: 1.5px solid var(--ink); border-radius: 18px; padding: 14px 16px; display: grid; gap: 6px; animation: rise .3s ease; }
-.ninfo b { font-size: 16px; } .ninfo p { margin: 0; color: var(--muted); font-size: 14px; }
-.ninfo .tagx { justify-self: start; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 3px 9px; background: var(--hl); color: var(--hl-ink); }
-.ninfo .btn { justify-self: start; padding: 10px 16px; font-size: 15px; margin-top: 4px; }
+/* curso estelar */
+#s-shop .center.solo { max-width: 420px; }
+.btn-route { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: 13px 18px; font-weight: 800; font-size: 16px; }
+.btn-route .spark { color: var(--hl); text-shadow: 0 0 10px rgba(255,226,38,.8); animation: twinkle 1.6s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: .35; transform: scale(.8); } }
+.others2 { width: 100%; text-align: left; display: grid; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1.5px dashed var(--line); }
+.others2 h3 { margin: 0; font: 400 26px/1.05 var(--display); }
+.blocks2 { display: grid; grid-auto-flow: column; grid-auto-columns: 168px; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 16px 12px; margin: 0 -16px; scrollbar-width: none; }
+.blocks2::-webkit-scrollbar { display: none; }
+.cblk { scroll-snap-align: start; background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; overflow: hidden; text-align: left; padding: 0; color: var(--ink); display: flex; flex-direction: column; }
+.cblk .inf { padding: 10px 12px 12px; display: grid; gap: 3px; }
+.cblk .inf b { font-size: 14.5px; line-height: 1.2; } .cblk .inf small { color: var(--muted); font-weight: 600; font-size: 12.5px; }
+.cblk .inf .tg { justify-self: start; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; background: var(--hl); color: var(--hl-ink); border-radius: 6px; padding: 2px 6px; }
+.anim { height: 132px; position: relative; overflow: hidden; }
+/* agentes: bichitos que conversan y se pasan una tarea */
+.anim.ag { background: radial-gradient(circle at 50% 130%, #4a5fa3, #1b2244 70%); }
+.anim.ag::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18px; background: rgba(255,255,255,.08); }
+.bug { position: absolute; bottom: 16px; width: 34px; height: 28px; animation: walk 6s ease-in-out infinite; }
+.bug .bd { position: absolute; inset: 0; border-radius: 50% 50% 42% 42%; background: var(--c); animation: bob .45s ease-in-out infinite alternate; }
+.bug .bd::before, .bug .bd::after { content: ""; position: absolute; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 60% 55%, #111 0 2.2px, #fff 2.8px); animation: blink 3.4s infinite; }
+.bug .bd::before { left: 6px; } .bug .bd::after { right: 6px; }
+.bug .an { position: absolute; top: -9px; left: 50%; width: 2px; height: 10px; background: var(--c); transform-origin: bottom; animation: wig .9s ease-in-out infinite alternate; }
+.bug .an::after { content: ""; position: absolute; top: -3px; left: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.bug .an.l { margin-left: -7px; transform: rotate(-22deg); } .bug .an.r { margin-left: 5px; transform: rotate(22deg); animation-delay: -.45s; }
+.bug::before, .bug::after { content: ""; position: absolute; bottom: -4px; width: 9px; height: 5px; border-radius: 50%; background: var(--c); filter: brightness(.7); animation: step .3s steps(2) infinite; }
+.bug::before { left: 5px; } .bug::after { right: 5px; animation-delay: -.15s; }
+.bug .say { position: absolute; bottom: 36px; left: 50%; background: #fff; color: #111; border-radius: 10px; padding: 3px 7px; font-size: 10px; font-weight: 800; white-space: nowrap; transform: translateX(-50%) scale(0); transform-origin: bottom center; animation: say 6s infinite; }
+.bug.b1 { left: 10px; --c: #ffe226; } .bug.b2 { left: 66px; --c: #6fe3b5; animation-delay: -2s; } .bug.b3 { left: 122px; --c: #ff8fb1; animation-delay: -4s; }
+.bug.b2 .say { animation-delay: 2s; } .bug.b3 .say { animation-delay: 4s; } .bug.b1 .say { animation-delay: 0s; }
+.task { position: absolute; top: 26px; width: 14px; height: 10px; border-radius: 2px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.4); animation: pass 6s ease-in-out infinite; }
+.task::after { content: ""; position: absolute; left: 3px; right: 3px; top: 3px; height: 1.5px; background: #9aa; box-shadow: 0 3px 0 #9aa; }
+@keyframes walk { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(8px); } 70% { transform: translateX(-6px); } }
+@keyframes bob { to { transform: translateY(-3px); } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+@keyframes wig { to { transform: rotate(14deg); } }
+@keyframes step { 50% { transform: translateY(-2px); } }
+@keyframes say { 0%, 3% { transform: translateX(-50%) scale(0); } 7%, 28% { transform: translateX(-50%) scale(1); } 32%, 100% { transform: translateX(-50%) scale(0); } }
+@keyframes pass { 0%, 22% { left: 20px; opacity: 1; } 33%, 55% { left: 76px; } 66%, 88% { left: 132px; opacity: 1; } 95% { left: 132px; opacity: 0; } 96%, 100% { left: 20px; opacity: 0; } }
+/* prompts: líneas que se escriben */
+.anim.pr { background: #a3472f; padding: 18px 14px; display: grid; align-content: start; gap: 9px; }
+.anim.pr i { display: block; height: 10px; border-radius: 5px; background: rgba(255,255,255,.88); width: 0; animation: typeln 4.8s infinite; }
+.anim.pr i:nth-child(1) { --w: 88%; } .anim.pr i:nth-child(2) { --w: 64%; animation-delay: .5s; } .anim.pr i:nth-child(3) { --w: 40%; animation-delay: 1s; }
+.anim.pr i:nth-child(4) { --w: 72%; justify-self: end; background: #ffe226; height: 26px; border-radius: 10px; margin-top: 6px; animation-delay: 1.8s; }
+@keyframes typeln { 0% { width: 0; opacity: 1; } 18%, 86% { width: var(--w); opacity: 1; } 100% { width: var(--w); opacity: 0; } }
+/* automatiza: cinta con tareas que salen listas */
+.anim.au { background: #107c41; }
+.anim.au .gear { position: absolute; left: 50%; top: 14px; margin-left: -20px; width: 40px; height: 40px; font-size: 40px; line-height: 40px; text-align: center; color: rgba(255,255,255,.9); animation: spin 3s linear infinite; }
+.anim.au .bl { position: absolute; left: 0; right: 0; bottom: 30px; height: 4px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 10px, transparent 10px 18px); animation: beltmv .6s linear infinite; }
+.anim.au .bx { position: absolute; bottom: 36px; left: -30px; width: 24px; height: 18px; border-radius: 4px; background: #fff; animation: conv 4.5s linear infinite; }
+.anim.au .bx:nth-of-type(2) { animation-delay: 1.5s; } .anim.au .bx:nth-of-type(3) { animation-delay: 3s; }
+@keyframes beltmv { to { background-position: 18px 0; } }
+@keyframes conv { 0% { transform: translateX(0); background: #fff; } 48% { background: #fff; } 52%, 100% { background: #ffe226; } 100% { transform: translateX(230px); } }
+/* imágenes: color que cambia de forma */
+.anim.im { background: #3a0f24; display: grid; place-items: center; }
+.anim.im::before { content: ""; width: 110px; height: 110px; border-radius: 40% 60% 55% 45%; background: conic-gradient(#ff8fb1, #ffe226, #6fe3b5, #6fb3ff, #c2185b, #ff8fb1); filter: blur(6px); animation: spin 6s linear infinite, morph 4s ease-in-out infinite alternate; }
+.anim.im::after { content: ""; position: absolute; inset: 22px 34px; border: 2px solid rgba(255,255,255,.75); border-radius: 6px; }
+@keyframes morph { to { border-radius: 60% 40% 45% 55%; transform: scale(.85); } }
+/* datos: barras que crecen */
+.anim.da { background: #0d6e8a; display: flex; align-items: flex-end; gap: 9px; padding: 0 20px 20px; }
+.anim.da i { flex: 1; background: rgba(255,255,255,.85); border-radius: 4px 4px 0 0; animation: grow 3.6s ease-in-out infinite; }
+.anim.da i:nth-child(2) { animation-delay: .25s; --h: 70%; } .anim.da i:nth-child(3) { animation-delay: .5s; --h: 45%; } .anim.da i:nth-child(4) { animation-delay: .75s; --h: 85%; background: #ffe226; } .anim.da i:nth-child(5) { animation-delay: 1s; --h: 60%; }
+@keyframes grow { 0%, 100% { height: 12%; } 50% { height: var(--h, 55%); } }
+
+/* ruta: de la estrella a la galaxia, al deslizar */
+#s-route { padding: 0; background: #05060c; color: #fff; display: none; }
+#s-route.on { display: block; animation: zoomin .7s cubic-bezier(.2,.8,.2,1); }
+@keyframes zoomin { from { opacity: 0; transform: scale(1.5); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+.sky-stick { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+#sky { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#sky text { fill: #fff; font-family: var(--ui); font-weight: 700; }
+#sky .sub { fill: rgba(255,255,255,.6); font-weight: 600; }
+.sky-space { height: 380vh; }
+.sky-cap { position: absolute; left: 0; right: 0; top: calc(20px + var(--safe-t)); padding: 0 64px 0 20px; pointer-events: none; }
+.sky-cap .cap { position: absolute; left: 20px; right: 64px; top: 0; opacity: 0; transition: opacity .25s; text-shadow: 0 2px 12px #05060c; }
+.sky-cap .cap span { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--hl); }
+.sky-cap .cap h2 { margin: 6px 0 6px; font: 400 clamp(28px, 7.4vw, 40px)/1 var(--display); color: #fff; }
+.sky-cap .cap p { margin: 0; color: rgba(255,255,255,.75); font-size: 15px; max-width: 420px; }
+.sky-x { position: absolute; right: 14px; top: calc(16px + var(--safe-t)); width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.12); color: #fff; font-size: 18px; z-index: 2; }
+.sky-foot { position: absolute; left: 0; right: 0; bottom: calc(20px + var(--safe-b)); display: grid; justify-items: center; gap: 10px; padding: 0 16px; }
+.sky-hint { display: grid; justify-items: center; color: rgba(255,255,255,.75); font-weight: 800; font-size: 13px; transition: opacity .3s; }
+.sky-hint svg { animation: hint 1.3s ease-in-out infinite; }
+#sky-go { width: min(100%, 360px); opacity: 0; transform: translateY(12px); transition: opacity .35s, transform .35s; pointer-events: none; }
+#sky-go.on { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { #s-route.on { animation: none; } .anim *, .anim::before, .bug, .bug * { animation: none !important; } }
 
 /* botón Más: rota entre lo que ofrece */
 .bmore .ico { position: relative; overflow: hidden; }
@@ -504,16 +559,29 @@ textarea.nt { font: 500 15px/1.45 var(--ui); padding: 12px 14px; border-radius: 
 </section>
 
 <!-- 3 · Tu curso -->
-<section class="screen" id="s-shop" aria-label="Cursos para ti">
+<section class="screen" id="s-shop" aria-label="Tu curso estelar">
   <div class="center solo">
-    <span class="eyebrow" id="shop-eyebrow">Tu curso ideal</span>
-    <div class="stage"><div class="belt" aria-hidden="true"><div class="track" id="belt"></div></div><div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Esto vas a crear</span></div></div>
+    <span class="eyebrow" id="shop-eyebrow">Tu curso estelar</span>
+    <div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Esto vas a crear</span></div>
     <h2>Crear videos con Claude</h2>
     <p class="meta">Nanocurso · 6 cápsulas + práctica · ★ 4,9</p>
     <button class="btn hl bigglow" type="button" id="b-buy">Comprar · $7.99</button>
-    <div class="bel-hint" aria-hidden="true">Tu ruta completa<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>
-    <div class="route" id="route"></div>
+    <button class="btn-route" type="button" id="b-route"><span class="spark">✦</span>Ver mi ruta de aprendizaje</button>
+    <div class="others2"><span class="eyebrow">Otros cursos que te pueden interesar</span><div class="blocks2" id="blocks2"></div></div>
   </div>
+</section>
+<section class="screen" id="s-route" aria-label="Tu ruta de aprendizaje">
+  <div class="sky-stick">
+    <svg id="sky" aria-hidden="true"></svg>
+    <div class="sky-cap">
+      <div class="cap"><span>★ Tu curso estelar</span><h2>Crear videos con Claude</h2><p>Este es tu curso ahora mismo. Desliza para ver hacia dónde te lleva.</p></div>
+      <div class="cap"><span>Tu camino</span><h2>Tu ruta de inteligencia artificial</h2><p>Lo que ya sabes, lo que sigue y la meta. Cada curso abre el siguiente.</p></div>
+      <div class="cap"><span>Y más allá</span><h2>Todo lo que puedes llegar a aprender</h2><p>Tu ruta se conecta con otras. Lo que aprendes aquí cuenta en todas.</p></div>
+    </div>
+    <button class="sky-x" type="button" id="sky-x" aria-label="Cerrar la ruta">✕</button>
+    <div class="sky-foot"><div class="sky-hint" id="sky-hint">Desliza para alejarte<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div><button class="btn hl bigglow" type="button" id="sky-go">Empezar mi curso estelar</button></div>
+  </div>
+  <div class="sky-space"></div>
 </section>
 <!-- 4 · Mis cursos -->
 <section class="screen" id="s-library" aria-label="Mis cursos">
@@ -619,16 +687,23 @@ const botSay = async (html, wait = 350) => {
   await sleep(wait + Math.min(500, html.length * 5)); t.innerHTML = html; th.scrollTop = th.scrollHeight;
 };
 const meSay = (txt) => { const th = $('#thread'); const t = document.createElement('div'); t.className = 'msg me'; t.textContent = txt; th.appendChild(t); th.scrollTop = th.scrollHeight; };
-const offer = (opts) => new Promise((res) => {
-  const box = $('#answers'); box.innerHTML = opts.map((o, i) => `<button type="button" data-i="${i}" style="animation-delay:${i * 60}ms">${o}</button>`).join('');
-  box.onclick = (e) => { const b = e.target.closest('button'); if (!b) return; box.innerHTML = ''; meSay(opts[+b.dataset.i]); res(+b.dataset.i); };
+// ok: índices que se pueden elegir; los demás se ven, pero dicen "Pronto"
+const offer = (opts, ok) => new Promise((res) => {
+  const box = $('#answers'), on = (i) => !ok || ok.includes(i);
+  box.innerHTML = opts.map((o, i) => `<button type="button" data-i="${i}" class="${on(i) ? '' : 'soon'}" aria-disabled="${!on(i)}" style="animation-delay:${i * 60}ms">${o}${on(i) ? '' : '<small>Pronto</small>'}</button>`).join('');
+  box.onclick = (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.classList.contains('soon')) { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); toast('Pronto en Píldora. Por ahora: ' + opts[ok[0]]); return; }
+    box.innerHTML = ''; meSay(opts[+b.dataset.i]); res(+b.dataset.i);
+  };
 });
 const startChat = async () => {
-  show('s-chat'); $('#thread').innerHTML = ''; $('#answers').innerHTML = ''; $('#chat-sub').textContent = 'Dos preguntas y empiezas';
+  show('s-chat'); $('#thread').innerHTML = ''; $('#answers').innerHTML = ''; $('#chat-sub').textContent = 'Tres preguntas y empiezas';
   await botSay(`¡Hola, <b>${esc(NAME())}</b>! ¿Qué quieres aprender hoy?`, 250);
-  ans.tema = await offer(['Inteligencia artificial', 'Excel', 'Fotografía']);
-  await botSay(ans.tema === 0 ? '¡Buena elección!' : 'Buena idea. Para empezar, te recomiendo lo que hoy está en todo: la <b>inteligencia artificial</b>.', 150);
-  await botSay('¿Cuánto tiempo tienes al día?', 150);
+  ans.tema = await offer(['Inteligencia artificial', 'Excel', 'Fotografía', 'Inglés'], [0]);
+  await botSay('¡Buena elección! ¿En qué la quieres enfocar?', 150);
+  ans.foco = await offer(['Hacer videos', 'Crear agentes', 'Automatizar mi trabajo', 'Crear imágenes'], [0]);
+  await botSay('Perfecto: <b>videos con IA</b>. ¿Cuánto tiempo tienes al día?', 150);
   ans.tiempo = await offer(['5 minutos', '10 minutos', '15 minutos']);
   ST.goal = [5, 10, 15][ans.tiempo]; ST.ans = ans; persist();
   const th = $('#thread'), t = document.createElement('div'); t.className = 'msg bot'; t.innerHTML = 'Buscando tu curso ideal…<div class="scan" style="margin-top:8px;width:180px"><i></i></div>'; th.appendChild(t); th.scrollTop = th.scrollHeight;
@@ -642,56 +717,92 @@ const OTHERS = [
   { t: 'Prompts que ahorran horas', d: 'Escribe pedidos que funcionan', p: '$5.99', col: '#a3472f', ini: 'PR' },
   { t: 'Automatiza tu trabajo con IA', d: 'Correos, reportes y hojas', p: '$12.99', col: '#107c41', ini: 'AU' },
 ];
-// carrusel de fondo: otros nanocursos de la plataforma
-const BELT = [
-  { t: 'Agentes con IA', col: '#2b3a67', ini: 'AG' }, { t: 'Prompts que ahorran horas', col: '#a3472f', ini: 'PR' },
-  { t: 'Voz y guion con IA', col: '#6b3fa0', ini: 'VG' }, { t: 'Automatiza tu trabajo', col: '#107c41', ini: 'AU' },
-  { t: 'Imágenes con IA', col: '#c2185b', ini: 'IM' }, { t: 'Datos con IA', col: '#0d6e8a', ini: 'DA' },
+// otros cursos: cada bloque con una animación de lo que enseña
+const MORE = [
+  { t: 'Crear agentes con Claude', d: 'Nanocurso · 6 cápsulas', p: '$9.99', tag: 'Sigue en tu ruta', a: 'ag', h: '<div class="task"></div><div class="bug b1"><i class="an l"></i><i class="an r"></i><div class="bd"></div><span class="say">¿Lo busco?</span></div><div class="bug b2"><i class="an l"></i><i class="an r"></i><div class="bd"></div><span class="say">¡Escribo!</span></div><div class="bug b3"><i class="an l"></i><i class="an r"></i><div class="bd"></div><span class="say">Reviso ✓</span></div>' },
+  { t: 'Prompts que ahorran horas', d: 'Nanocurso · 5 cápsulas', p: '$5.99', a: 'pr', h: '<i></i><i></i><i></i><i></i>' },
+  { t: 'Automatiza tu trabajo con IA', d: 'Nanocurso · 6 cápsulas', p: '$12.99', a: 'au', h: '<span class="gear">⚙</span><div class="bl"></div><i class="bx"></i><i class="bx"></i><i class="bx"></i>' },
+  { t: 'Imágenes con IA', d: 'Nanocurso · 5 cápsulas', p: '$7.99', a: 'im', h: '' },
+  { t: 'Datos con IA', d: 'Nanocurso · 6 cápsulas', p: '$9.99', a: 'da', h: '<i></i><i></i><i></i><i></i><i></i>' },
 ];
-// ruta por meta: el mapa se muestra como un camino (lo que ya sabes, tu frontera y lo que se abre después)
-const ROUTE = {
-  goal: 'Creador de contenido con IA',
-  nodes: [
-    { t: 'Prompts que ahorran horas', st: 'base', ic: '✓', s: 'Lo das por sabido', d: 'Pedirle a la IA lo que quieres, en una frase clara.', why: 'Tus respuestas del chat dicen que ya lo manejas. El diagnóstico del curso lo confirma con 3 preguntas: si aciertas, no lo repites.' },
-    { t: 'Crear videos con Claude', st: 'front', ic: '★', s: 'Empiezas aquí', d: 'Hacer tu primer video con Claude: estudio, reglas, voz y pedido.', why: 'Ya tienes todo lo que necesita: está en tu frontera, listo para aprender. ≈ 25 minutos de práctica, en cápsulas de 1 minuto.' },
-    { t: 'Voz y guion con IA', st: 'lock', ic: '2', s: 'Se abre después', d: 'Escribir un guion con gancho y darle tu propia voz.', why: 'Necesita que ya sepas generar un video: se abre al terminar «Crear videos con Claude».' },
-    { t: 'Agentes con IA', st: 'lock', ic: '3', s: 'Se abre después', d: 'Que la IA haga tareas de varios pasos por ti.', why: 'Usa las reglas de CLAUDE.md que aprendes en tu primer curso.' },
-    { t: 'Automatiza tu trabajo con IA', st: 'lock', ic: '4', s: 'Se abre después', d: 'Publicar y repetir tus videos sin hacerlo a mano.', why: 'Junta lo de los cursos anteriores en un flujo que corre solo.' },
-    { t: 'Creador de contenido con IA', st: 'goal', ic: '🏆', s: 'Tu meta · certificado', d: 'Un perfil completo: ideas, guion, voz, video y publicación.', why: 'Al dominar los 5 nanocursos se habilita un examen armado solo con lo que tú practicaste.' },
-  ],
+const renderBlocks = () => {
+  $('#blocks2').innerHTML = MORE.map((c) => `<button class="cblk" type="button"><div class="anim ${c.a}" aria-hidden="true">${c.h}</div><div class="inf">${c.tag ? `<span class="tg">${c.tag}</span>` : ''}<b>${c.t}</b><small>${c.d} · ${c.p}</small></div></button>`).join('');
+  $('#blocks2').onclick = (e) => { if (e.target.closest('.cblk')) toast('Se abre cuando termines tu curso estelar'); };
 };
-const renderRoute = () => {
-  $('#belt').innerHTML = [...BELT, ...BELT].map((c) => `<div class="cc" style="background:${c.col}"><b>${c.ini}</b><span>${c.t}</span></div>`).join('');
-  const N = ROUTE.nodes, off = [4, 22, 36, 22, 4, 16];
-  $('#route').innerHTML = `
-    <span class="eyebrow">Esta ruta te puede interesar</span>
-    <h3>${ROUTE.goal}</h3>
-    <p class="meta">5 nanocursos · solo incluye lo que te falta · tu curso es el primer paso</p>
-    <div class="sub"><span class="eyebrow">Explorar nodos</span></div>
-    <div class="legend"><span><i class="la"></i>Ya lo sabes</span><span><i class="lf"></i>Listo para aprender</span><span><i class="lb"></i>Se abre después</span></div>
-    <div class="path" id="path"><svg class="wire" aria-hidden="true"></svg>${N.map((n, k) => `<button class="node ${n.st}" type="button" data-n="${k}" style="margin-left:${off[k]}%;max-width:${100 - off[k]}%">${n.st === 'front' ? '<span class="flag">Tú estás aquí</span>' : ''}<span class="dot">${n.ic}</span><span class="lab"><b>${n.t}</b><small>${n.s}</small></span></button>`).join('')}</div>
-    <div id="ninfo"></div>`;
-  $('#path').addEventListener('click', (e) => { const b = e.target.closest('.node'); if (b) nodeInfo(+b.dataset.n); });
-  nodeInfo(1); requestAnimationFrame(drawWire); setTimeout(drawWire, 500);
-};
-const nodeInfo = (k) => {
-  const n = ROUTE.nodes[k]; $$('#path .node').forEach((b) => b.classList.toggle('sel', +b.dataset.n === k));
-  const tag = { base: 'Ya lo sabes', front: 'Listo para aprender', lock: 'Se abre después', goal: 'Meta de la ruta' }[n.st];
-  $('#ninfo').innerHTML = `<div class="ninfo"><span class="tagx">${tag}</span><b>${n.t}</b><p>${n.d}</p><p>${n.why}</p>${n.st === 'front' ? `<button class="btn hl" type="button" data-buy>${ST.bought ? 'Continuar' : 'Empezar este · $7.99'}</button>` : ''}</div>`;
-  $('#ninfo [data-buy]')?.addEventListener('click', () => { $('#s-shop').scrollTo({ top: 0, behavior: 'smooth' }); $('#b-buy').click(); });
-};
-const drawWire = () => {
-  const box = $('#path'); if (!box || !box.offsetParent) return; const r = box.getBoundingClientRect();
-  const pts = $$('.node .dot', box).map((d) => { const q = d.getBoundingClientRect(); return [q.left - r.left + q.width / 2, q.top - r.top + q.height / 2]; });
-  let p = `M${pts[0][0]} ${pts[0][1]}`; for (let k = 1; k < pts.length; k++) { const [x0, y0] = pts[k - 1], [x1, y1] = pts[k], my = (y0 + y1) / 2; p += ` C${x0} ${my} ${x1} ${my} ${x1} ${y1}`; }
-  const done = `M${pts[0][0]} ${pts[0][1]} C${pts[0][0]} ${(pts[0][1] + pts[1][1]) / 2} ${pts[1][0]} ${(pts[0][1] + pts[1][1]) / 2} ${pts[1][0]} ${pts[1][1]}`;
-  $('svg.wire', box).innerHTML = `<path d="${p}" fill="none" stroke="var(--muted)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/><path d="${done}" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>`;
-};
-addEventListener('resize', () => { if ($('#s-shop').classList.contains('on')) drawWire(); });
 const openShop = () => {
-  $('#shop-eyebrow').textContent = `${NAME()}, este es tu curso ideal`; if (ST.bought) $('#b-buy').textContent = 'Continuar el curso';
-  show('s-shop'); $('#s-shop').scrollTop = 0; renderRoute(); $('#pv').play().catch(() => {});
+  $('#shop-eyebrow').textContent = `${NAME()}, este es tu curso estelar ★`; if (ST.bought) $('#b-buy').textContent = 'Continuar el curso';
+  show('s-shop'); $('#s-shop').scrollTop = 0; renderBlocks(); $('#pv').play().catch(() => {});
 };
+
+// ---------- tu ruta: estrella → camino → todo el mapa, al deslizar ----------
+// Mundo en unidades propias; la cámara se acerca o se aleja según cuánto se deslizó.
+const SKY = { built: false, ROUTE: [
+  { t: 'Prompts que ahorran horas', s: 'Ya lo sabes', x: -60, y: -120, st: 'base' },
+  { t: 'Crear videos con Claude', s: 'Tu curso estelar', x: 0, y: 0, st: 'star' },
+  { t: 'Voz y guion con IA', s: 'Sigue después', x: 70, y: 95, st: 'next' },
+  { t: 'Crear agentes con Claude', s: 'Sigue después', x: -40, y: 190, st: 'next' },
+  { t: 'Automatiza tu trabajo con IA', s: 'Sigue después', x: 55, y: 285, st: 'next' },
+  { t: 'Creador de contenido con IA', s: 'Tu meta · certificado', x: 0, y: 390, st: 'goal' },
+], SIDE: [
+  { t: 'Imágenes con IA', x: 175, y: 40, from: 2 }, { t: 'Datos con IA', x: -130, y: 262, from: 3, l: 1 }, { t: 'Escribir con IA', x: -130, y: 52, from: 0, l: 1 },
+], GAL: [
+  ['Datos y análisis', -640, -380], ['Diseño', 620, -330], ['Programación', -700, 560], ['Marketing digital', 660, 620],
+  ['Negocios', 30, -820], ['Educación', 20, 1120], ['Idiomas', -1000, 120], ['Finanzas', 1000, 160],
+] };
+const buildSky = () => {
+  const R = SKY.ROUTE, NS = 'http://www.w3.org/2000/svg'; let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const dust = Array.from({ length: 380 }, () => { const a = rnd() * 6.283, r = Math.pow(rnd(), .6) * 1700; return `<circle cx="${(40 + Math.cos(a) * r * 1.1).toFixed(0)}" cy="${(150 + Math.sin(a) * r * .8).toFixed(0)}" r="${(1 + rnd() * 3.2).toFixed(1)}" fill="#fff" opacity="${(.25 + rnd() * .6).toFixed(2)}"/>`; }).join('');
+  const gal = SKY.GAL.map(([name, cx, cy], g) => {
+    const n = 5 + (g % 3), pts = Array.from({ length: n }, (_, k) => [cx + Math.cos(k * 2.4 + g) * (60 + rnd() * 110), cy + Math.sin(k * 2.4 + g) * (50 + rnd() * 90)]);
+    return `<g><path d="M${pts.map((p) => p.map((v) => v.toFixed(0)).join(' ')).join(' L')}" fill="none" stroke="rgba(160,180,255,.45)" stroke-width="5"/>${pts.map(([x, y]) => `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(9 + rnd() * 9).toFixed(0)}" fill="#cdd6ff"/>`).join('')}<text x="${cx}" y="${cy + 190}" text-anchor="middle" font-size="64" class="sub">${name}</text></g>`;
+  }).join('');
+  const links = [[3, 2], [4, 7], [2, 1], [0, 0], [5, 3]].map(([r, g]) => `<line x1="${R[r].x}" y1="${R[r].y}" x2="${SKY.GAL[g][1]}" y2="${SKY.GAL[g][2]}" stroke="rgba(255,226,38,.35)" stroke-width="4" stroke-dasharray="10 18"/>`).join('');
+  const seg = (a, b, solid) => `<path d="M${a.x} ${a.y} C${a.x} ${(a.y + b.y) / 2} ${b.x} ${(a.y + b.y) / 2} ${b.x} ${b.y}" fill="none" stroke="${solid ? '#ffe226' : 'rgba(255,255,255,.55)'}" stroke-width="${solid ? 3.5 : 2.5}" ${solid ? '' : 'stroke-dasharray="2 7"'} stroke-linecap="round"/>`;
+  const route = R.slice(1).map((n, k) => seg(R[k], n, k === 0)).join('');
+  const side = SKY.SIDE.map((n) => `<g>${seg(R[n.from + 1] || R[0], n, false).replace('rgba(255,255,255,.55)', 'rgba(255,255,255,.3)')}<circle cx="${n.x}" cy="${n.y}" r="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-dasharray="3 3"/><text x="${n.l ? n.x + 12 : n.x}" y="${n.l ? n.y + 4 : n.y + 22}" text-anchor="${n.l ? 'start' : 'middle'}" class="sub lab" font-size="11">${n.t}</text></g>`).join('');
+  const node = (n) => {
+    const r = { star: 13, goal: 11, base: 8, next: 8 }[n.st];
+    const dot = n.st === 'star' ? `<circle cx="${n.x}" cy="${n.y}" r="34" fill="url(#halo)"/><path d="${starPath(n.x, n.y, 15, 6.5)}" fill="#ffe226"/>`
+      : n.st === 'goal' ? `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="#fff"/><text x="${n.x}" y="${n.y + 4.5}" text-anchor="middle" font-size="12">🏆</text>`
+      : n.st === 'base' ? `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="rgba(255,255,255,.6)"/>`
+      : `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="#05060c" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"/>`;
+    return `<g class="${n.st === 'star' ? 'n-star' : 'n-rest'}">${dot}<text x="${n.x + 20}" y="${n.y - 1}" font-size="13" class="lab">${n.t}</text><text x="${n.x + 20}" y="${n.y + 14}" font-size="11" class="sub lab">${n.s}</text></g>`;
+  };
+  $('#sky').innerHTML = `<defs><radialGradient id="halo"><stop offset="0" stop-color="#ffe226" stop-opacity=".7"/><stop offset="1" stop-color="#ffe226" stop-opacity="0"/></radialGradient><radialGradient id="neb"><stop offset="0" stop-color="#7b5cff" stop-opacity=".35"/><stop offset=".5" stop-color="#2a6fff" stop-opacity=".12"/><stop offset="1" stop-color="#05060c" stop-opacity="0"/></radialGradient></defs>
+    <g id="sky-w"><ellipse id="sky-neb" cx="40" cy="150" rx="1500" ry="1000" fill="url(#neb)"/><g id="sky-dust">${dust}</g><g id="sky-gal">${gal}${links}<text x="230" y="-160" font-size="72" fill="#ffe226" id="sky-you">Tu ruta</text></g><g id="sky-side">${side}</g><g id="sky-route">${route}</g><g id="sky-nodes">${R.map(node).join('')}</g></g>`;
+  SKY.built = true;
+};
+const starPath = (cx, cy, R, r) => Array.from({ length: 10 }, (_, k) => { const a = -Math.PI / 2 + k * Math.PI / 5, q = k % 2 ? r : R; return (k ? 'L' : 'M') + (cx + Math.cos(a) * q).toFixed(1) + ' ' + (cy + Math.sin(a) * q).toFixed(1); }).join(' ') + 'Z';
+const sm = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+const drawSky = () => {
+  const sc = $('#s-route'), W = sc.clientWidth, H = sc.clientHeight, p = sc.scrollTop / Math.max(1, sc.scrollHeight - H);
+  const k = Math.min((W - 40) / 330, (H - 280) / 560), top = 150, mid = top + (H - top - 110) / 2;
+  // tres paradas: la estrella, el camino completo y todo el mapa
+  const K = [{ p: 0, s: k * 3.3, c: [0, 0], y: H * 0.56 }, { p: 0.36, s: k, c: [40, 135], y: mid }, { p: 0.52, s: k, c: [40, 135], y: mid }, { p: 0.92, s: k * 0.16, c: [40, 150], y: mid + 10 }];
+  let i = 0; while (i < K.length - 2 && p > K[i + 1].p) i++;
+  const A = K[i], B = K[i + 1], t = sm(A.p, B.p, p), S = Math.exp(Math.log(A.s) + (Math.log(B.s) - Math.log(A.s)) * t);
+  const cx = A.c[0] + (B.c[0] - A.c[0]) * t, cy = A.c[1] + (B.c[1] - A.c[1]) * t, vy = A.y + (B.y - A.y) * t, rot = -10 * sm(0.55, 1, p);
+  $('#sky-w').setAttribute('transform', `translate(${W / 2} ${vy}) rotate(${rot}) scale(${S}) translate(${-cx} ${-cy})`);
+  // los nombres se ven siempre a un tamaño cómodo hasta que el mapa se aleja
+  const f = 1 / Math.max(S, k); $$('#sky .lab').forEach((e) => { if (!e.dataset.fs) e.dataset.fs = e.getAttribute('font-size'); e.setAttribute('font-size', (e.dataset.fs * f * 1.15).toFixed(2)); });
+  const rest = sm(0.06, 0.3, p), gal = sm(0.58, 0.86, p);
+  $('#sky-route').style.opacity = rest; $$('#sky .n-rest').forEach((e) => { e.style.opacity = rest; }); $$('#sky .n-star .lab').forEach((e) => { e.style.opacity = rest; });
+  $('#sky-side').style.opacity = sm(0.2, 0.4, p) * (1 - gal * 0.4); $('#sky-gal').style.opacity = gal; $('#sky-you').style.opacity = sm(0.78, 0.92, p);
+  $('#sky-neb').style.opacity = 0.25 + gal * 0.75; $('#sky-dust').style.opacity = 0.35 + gal * 0.65;
+  const caps = $$('.sky-cap .cap'); caps[0].style.opacity = 1 - sm(0.1, 0.2, p); caps[1].style.opacity = sm(0.26, 0.34, p) * (1 - sm(0.58, 0.66, p)); caps[2].style.opacity = sm(0.72, 0.82, p);
+  $('#sky-hint').style.opacity = 1 - sm(0.8, 0.9, p); $('#sky-go').classList.toggle('on', p > 0.86);
+};
+let skyRaf = 0; const skyTick = () => { cancelAnimationFrame(skyRaf); skyRaf = requestAnimationFrame(drawSky); };
+const openRoute = () => {
+  if (!SKY.built) buildSky(); $('#pv').pause(); $('#sky-go').textContent = ST.bought ? 'Continuar mi curso estelar' : 'Empezar mi curso estelar';
+  show('s-route'); $('#s-route').scrollTop = 0; drawSky(); setTimeout(drawSky, 60);
+};
+const closeRoute = () => { show('s-shop'); $('#pv').play().catch(() => {}); };
+$('#b-route').addEventListener('click', openRoute);
+$('#s-route').addEventListener('scroll', skyTick, { passive: true });
+addEventListener('resize', () => { if ($('#s-route').classList.contains('on')) drawSky(); });
+$('#sky-x').addEventListener('click', closeRoute);
+$('#sky-go').addEventListener('click', () => { closeRoute(); $('#b-buy').click(); });
 $('#b-buy').addEventListener('click', async () => {
   const b = $('#b-buy'); if (ST.bought) { openCourse(false); return; }
   b.disabled = true; b.textContent = 'Procesando…'; await sleep(700);
