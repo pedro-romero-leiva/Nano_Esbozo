@@ -131,6 +131,55 @@ h1, h2 { text-wrap: balance; margin: 0; }
 .oc .pr { font-weight: 800; font-size: 15px; }
 @media (max-width: 420px) { .feat { grid-template-columns: 1fr; } .feat .pv { width: 64%; margin: 0 auto; } }
 
+/* tu curso: carrusel atrás, ruta y nodos */
+#s-shop .center.solo { max-width: 400px; }
+.stage { position: relative; width: 100%; display: grid; place-items: center; padding: 6px 0 4px; }
+.belt { position: absolute; left: -16px; right: -16px; top: 50%; transform: translateY(-50%); overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.belt .track { display: flex; gap: 12px; width: max-content; animation: belt 30s linear infinite; }
+@keyframes belt { to { transform: translateX(-50%); } }
+.cc { width: 108px; height: 150px; border-radius: 14px; color: #fff; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; opacity: .5; filter: saturate(.8); flex: none; }
+.cc b { font: 400 24px var(--display); } .cc span { font-size: 11.5px; font-weight: 700; line-height: 1.2; }
+.stage .pv { z-index: 2; }
+.bel-hint { display: grid; justify-items: center; gap: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; margin-top: 6px; }
+.bel-hint svg { animation: hint 1.3s ease-in-out infinite; }
+.route { width: 100%; text-align: left; display: grid; gap: 10px; margin-top: 18px; padding-top: 22px; border-top: 1.5px dashed var(--line); }
+.route h3 { margin: 0; font: 400 30px/1 var(--display); }
+.route .meta { font-size: 14px; }
+.route .sub { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; border: 2px solid var(--ink); }
+.legend .lf { border-color: var(--ink); background: var(--hl); } .legend .lb { border: 2px dashed var(--muted); } .legend .la { background: var(--muted); border-color: var(--muted); }
+.path { position: relative; display: grid; gap: 22px; padding: 10px 0 6px; }
+.path svg.wire { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.node { position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; background: none; border: 0; padding: 0; color: var(--ink); text-align: left; width: max-content; max-width: 100%; }
+.node .dot { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; flex: none; font: 400 22px var(--display); background: var(--card); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink); transition: transform .15s; }
+.node:active .dot { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+.node .lab { min-width: 0; } .node .lab b { display: block; font-size: 15px; line-height: 1.2; } .node .lab small { color: var(--muted); font-weight: 600; font-size: 12.5px; }
+.node.front .dot { background: var(--hl); color: var(--hl-ink); animation: glow 1.8s ease-in-out infinite; }
+.node.base .dot { background: var(--muted); border-color: var(--muted); color: var(--paper); box-shadow: 0 5px 0 rgba(0,0,0,.25); }
+.node.lock .dot { border-style: dashed; border-color: var(--muted); color: var(--muted); box-shadow: none; }
+.node.goal .dot { width: 74px; height: 74px; background: var(--ink); color: var(--paper); font-size: 30px; }
+.node.sel .dot { outline: 3px solid var(--hl); outline-offset: 4px; }
+.node .flag { position: absolute; left: 6px; top: -16px; background: var(--ink); color: var(--paper); font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; border-radius: 6px; padding: 3px 7px; white-space: nowrap; }
+.ninfo { background: var(--card); border: 1.5px solid var(--ink); border-radius: 18px; padding: 14px 16px; display: grid; gap: 6px; animation: rise .3s ease; }
+.ninfo b { font-size: 16px; } .ninfo p { margin: 0; color: var(--muted); font-size: 14px; }
+.ninfo .tagx { justify-self: start; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 3px 9px; background: var(--hl); color: var(--hl-ink); }
+.ninfo .btn { justify-self: start; padding: 10px 16px; font-size: 15px; margin-top: 4px; }
+
+/* botón Más: rota entre lo que ofrece */
+.bmore .ico { position: relative; overflow: hidden; }
+.cyc i, .cyl i { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; animation: cyc 10s infinite; font-style: normal; }
+.cyl { position: relative; display: block; width: 72px; height: 15px; }
+.cyc i:nth-child(2), .cyl i:nth-child(2) { animation-delay: 2s; } .cyc i:nth-child(3), .cyl i:nth-child(3) { animation-delay: 4s; }
+.cyc i:nth-child(4), .cyl i:nth-child(4) { animation-delay: 6s; } .cyc i:nth-child(5), .cyl i:nth-child(5) { animation-delay: 8s; }
+@keyframes cyc { 0% { opacity: 0; transform: translateY(70%); } 4%, 17% { opacity: 1; transform: none; } 21%, 100% { opacity: 0; transform: translateY(-70%); } }
+.bmore .ico::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--hl); opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .cyc i, .cyl i { animation: none; } .cyc i:first-child, .cyl i:first-child { opacity: 1; } .belt .track { animation: none; } }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools button { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13.5px; }
+.tools button svg { width: 16px; height: 16px; }
+.tools button small { color: var(--muted); font-weight: 700; }
+
 /* tu curso: una sola tarjeta, una sola decisión */
 .solo { max-width: 360px; align-items: center; text-align: center; gap: 14px; }
 .solo .pv { position: relative; width: min(62vw, 230px, 30dvh); aspect-ratio: 9/16; margin-bottom: 10px; border-radius: 18px; overflow: hidden; background: #000; box-shadow: 0 20px 44px rgba(0,0,0,.28); transform: rotate(-2deg); }
@@ -162,6 +211,8 @@ h1, h2 { text-wrap: balance; margin: 0; }
 .pbar { flex: 1; height: 14px; border-radius: 14px; background: var(--line); overflow: hidden; }
 .pbar i { display: block; height: 100%; width: 0; background: var(--ok); border-radius: 14px; transition: width .5s cubic-bezier(.3,1.4,.5,1); }
 .qtitle { font: 700 clamp(22px, 5vw, 28px)/1.25 var(--ui); letter-spacing: -.01em; }
+.qhint { margin: -6px 0 0; font-size: 14.5px; font-weight: 600; opacity: .72; }
+.qctx { margin: 0; font-size: 15px; font-weight: 600; opacity: .85; }
 .qkicker { font-size: 13px; font-weight: 800; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
 .blocks { display: flex; flex-wrap: wrap; gap: 10px; }
 .blk { appearance: none; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--card); color: var(--ink); border-radius: 14px; padding: 12px 16px; font: 700 16px var(--ui); transition: transform .12s, background .2s, border-color .2s, opacity .3s; }
@@ -349,6 +400,10 @@ body.reading .topbar { opacity: 0; pointer-events: none; }
 .step.done .chk svg { opacity: 1; transform: none; }
 .step .txt { padding-top: 3px; font-weight: 600; font-size: 15px; min-width: 0; }
 .step .txt small { display: block; color: var(--muted); font-weight: 500; font-size: 13.5px; margin-top: 2px; }
+.step .txt .why { display: block; margin-top: 6px; padding: 7px 10px; border-left: 3px solid var(--hl); background: rgba(255,226,38,.1); border-radius: 0 8px 8px 0; font-size: 13px; font-weight: 500; font-style: normal; color: var(--ink); }
+.step.done .txt .why { display: none; }
+.intro { font-size: 14.5px; margin: 0; color: var(--muted); }
+.intro b { color: var(--ink); }
 .step.done .txt { color: var(--muted); }
 .step.done .txt > span { text-decoration: line-through; text-decoration-color: rgba(0,0,0,.25); }
 .cmd { display: flex; align-items: center; gap: 8px; margin-top: 6px; background: #1f1d1a; color: #ffe226; border-radius: 10px; padding: 8px 10px; font: 600 13px/1.3 Consolas, "Cascadia Mono", monospace; overflow-x: auto; }
@@ -452,10 +507,12 @@ textarea.nt { font: 500 15px/1.45 var(--ui); padding: 12px 14px; border-radius: 
 <section class="screen" id="s-shop" aria-label="Cursos para ti">
   <div class="center solo">
     <span class="eyebrow" id="shop-eyebrow">Tu curso ideal</span>
-    <div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Esto vas a crear</span></div>
+    <div class="stage"><div class="belt" aria-hidden="true"><div class="track" id="belt"></div></div><div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Esto vas a crear</span></div></div>
     <h2>Crear videos con Claude</h2>
-    <p class="meta">6 cápsulas de 1 minuto · ★ 4,9</p>
+    <p class="meta">Nanocurso · 6 cápsulas + práctica · ★ 4,9</p>
     <button class="btn hl bigglow" type="button" id="b-buy">Comprar · $7.99</button>
+    <div class="bel-hint" aria-hidden="true">Tu ruta completa<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>
+    <div class="route" id="route"></div>
   </div>
 </section>
 <!-- 4 · Mis cursos -->
@@ -585,7 +642,56 @@ const OTHERS = [
   { t: 'Prompts que ahorran horas', d: 'Escribe pedidos que funcionan', p: '$5.99', col: '#a3472f', ini: 'PR' },
   { t: 'Automatiza tu trabajo con IA', d: 'Correos, reportes y hojas', p: '$12.99', col: '#107c41', ini: 'AU' },
 ];
-const openShop = () => { $('#shop-eyebrow').textContent = `${NAME()}, este es tu curso ideal`; show('s-shop'); $('#pv').play().catch(() => {}); };
+// carrusel de fondo: otros nanocursos de la plataforma
+const BELT = [
+  { t: 'Agentes con IA', col: '#2b3a67', ini: 'AG' }, { t: 'Prompts que ahorran horas', col: '#a3472f', ini: 'PR' },
+  { t: 'Voz y guion con IA', col: '#6b3fa0', ini: 'VG' }, { t: 'Automatiza tu trabajo', col: '#107c41', ini: 'AU' },
+  { t: 'Imágenes con IA', col: '#c2185b', ini: 'IM' }, { t: 'Datos con IA', col: '#0d6e8a', ini: 'DA' },
+];
+// ruta por meta: el mapa se muestra como un camino (lo que ya sabes, tu frontera y lo que se abre después)
+const ROUTE = {
+  goal: 'Creador de contenido con IA',
+  nodes: [
+    { t: 'Prompts que ahorran horas', st: 'base', ic: '✓', s: 'Lo das por sabido', d: 'Pedirle a la IA lo que quieres, en una frase clara.', why: 'Tus respuestas del chat dicen que ya lo manejas. El diagnóstico del curso lo confirma con 3 preguntas: si aciertas, no lo repites.' },
+    { t: 'Crear videos con Claude', st: 'front', ic: '★', s: 'Empiezas aquí', d: 'Hacer tu primer video con Claude: estudio, reglas, voz y pedido.', why: 'Ya tienes todo lo que necesita: está en tu frontera, listo para aprender. ≈ 25 minutos de práctica, en cápsulas de 1 minuto.' },
+    { t: 'Voz y guion con IA', st: 'lock', ic: '2', s: 'Se abre después', d: 'Escribir un guion con gancho y darle tu propia voz.', why: 'Necesita que ya sepas generar un video: se abre al terminar «Crear videos con Claude».' },
+    { t: 'Agentes con IA', st: 'lock', ic: '3', s: 'Se abre después', d: 'Que la IA haga tareas de varios pasos por ti.', why: 'Usa las reglas de CLAUDE.md que aprendes en tu primer curso.' },
+    { t: 'Automatiza tu trabajo con IA', st: 'lock', ic: '4', s: 'Se abre después', d: 'Publicar y repetir tus videos sin hacerlo a mano.', why: 'Junta lo de los cursos anteriores en un flujo que corre solo.' },
+    { t: 'Creador de contenido con IA', st: 'goal', ic: '🏆', s: 'Tu meta · certificado', d: 'Un perfil completo: ideas, guion, voz, video y publicación.', why: 'Al dominar los 5 nanocursos se habilita un examen armado solo con lo que tú practicaste.' },
+  ],
+};
+const renderRoute = () => {
+  $('#belt').innerHTML = [...BELT, ...BELT].map((c) => `<div class="cc" style="background:${c.col}"><b>${c.ini}</b><span>${c.t}</span></div>`).join('');
+  const N = ROUTE.nodes, off = [4, 22, 36, 22, 4, 16];
+  $('#route').innerHTML = `
+    <span class="eyebrow">Esta ruta te puede interesar</span>
+    <h3>${ROUTE.goal}</h3>
+    <p class="meta">5 nanocursos · solo incluye lo que te falta · tu curso es el primer paso</p>
+    <div class="sub"><span class="eyebrow">Explorar nodos</span></div>
+    <div class="legend"><span><i class="la"></i>Ya lo sabes</span><span><i class="lf"></i>Listo para aprender</span><span><i class="lb"></i>Se abre después</span></div>
+    <div class="path" id="path"><svg class="wire" aria-hidden="true"></svg>${N.map((n, k) => `<button class="node ${n.st}" type="button" data-n="${k}" style="margin-left:${off[k]}%;max-width:${100 - off[k]}%">${n.st === 'front' ? '<span class="flag">Tú estás aquí</span>' : ''}<span class="dot">${n.ic}</span><span class="lab"><b>${n.t}</b><small>${n.s}</small></span></button>`).join('')}</div>
+    <div id="ninfo"></div>`;
+  $('#path').addEventListener('click', (e) => { const b = e.target.closest('.node'); if (b) nodeInfo(+b.dataset.n); });
+  nodeInfo(1); requestAnimationFrame(drawWire); setTimeout(drawWire, 500);
+};
+const nodeInfo = (k) => {
+  const n = ROUTE.nodes[k]; $$('#path .node').forEach((b) => b.classList.toggle('sel', +b.dataset.n === k));
+  const tag = { base: 'Ya lo sabes', front: 'Listo para aprender', lock: 'Se abre después', goal: 'Meta de la ruta' }[n.st];
+  $('#ninfo').innerHTML = `<div class="ninfo"><span class="tagx">${tag}</span><b>${n.t}</b><p>${n.d}</p><p>${n.why}</p>${n.st === 'front' ? `<button class="btn hl" type="button" data-buy>${ST.bought ? 'Continuar' : 'Empezar este · $7.99'}</button>` : ''}</div>`;
+  $('#ninfo [data-buy]')?.addEventListener('click', () => { $('#s-shop').scrollTo({ top: 0, behavior: 'smooth' }); $('#b-buy').click(); });
+};
+const drawWire = () => {
+  const box = $('#path'); if (!box || !box.offsetParent) return; const r = box.getBoundingClientRect();
+  const pts = $$('.node .dot', box).map((d) => { const q = d.getBoundingClientRect(); return [q.left - r.left + q.width / 2, q.top - r.top + q.height / 2]; });
+  let p = `M${pts[0][0]} ${pts[0][1]}`; for (let k = 1; k < pts.length; k++) { const [x0, y0] = pts[k - 1], [x1, y1] = pts[k], my = (y0 + y1) / 2; p += ` C${x0} ${my} ${x1} ${my} ${x1} ${y1}`; }
+  const done = `M${pts[0][0]} ${pts[0][1]} C${pts[0][0]} ${(pts[0][1] + pts[1][1]) / 2} ${pts[1][0]} ${(pts[0][1] + pts[1][1]) / 2} ${pts[1][0]} ${pts[1][1]}`;
+  $('svg.wire', box).innerHTML = `<path d="${p}" fill="none" stroke="var(--muted)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/><path d="${done}" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>`;
+};
+addEventListener('resize', () => { if ($('#s-shop').classList.contains('on')) drawWire(); });
+const openShop = () => {
+  $('#shop-eyebrow').textContent = `${NAME()}, este es tu curso ideal`; if (ST.bought) $('#b-buy').textContent = 'Continuar el curso';
+  show('s-shop'); $('#s-shop').scrollTop = 0; renderRoute(); $('#pv').play().catch(() => {});
+};
 $('#b-buy').addEventListener('click', async () => {
   const b = $('#b-buy'); if (ST.bought) { openCourse(false); return; }
   b.disabled = true; b.textContent = 'Procesando…'; await sleep(700);
@@ -596,7 +702,8 @@ $('#b-buy').addEventListener('click', async () => {
 // ---------- ejercicios: se responden con un toque (sin botón "Comprobar") ----------
 // tipos: choice {q, opts, ok, why} · order {q, words, answer, why} · pairs {q, pairs, why}
 const renderEx = (root, ex, onDone, opts = {}) => {
-  root.innerHTML = `${opts.kicker ? `<span class="qkicker">${opts.kicker}</span>` : ''}<p class="qtitle">${ex.q}</p><div class="exarea"></div><div class="verdict"></div>`;
+  const HOW = { choice: 'Toca la respuesta que creas correcta. Si fallas, te explico por qué.', order: 'Toca las palabras en el orden correcto. ¿Te equivocaste? Tócala arriba y vuelve abajo.', pairs: 'Toca una palabra de la izquierda y después su pareja de la derecha.' };
+  root.innerHTML = `${opts.kicker ? `<span class="qkicker">${opts.kicker}</span>` : ''}${ex.ctx ? `<p class="qctx">${ex.ctx}</p>` : ''}<p class="qtitle">${ex.q}</p><p class="qhint">${HOW[ex.type]}</p><div class="exarea"></div><div class="verdict"></div>`;
   const area = $('.exarea', root), verdict = $('.verdict', root); let answered = false;
   const finish = (good, xp) => {
     answered = true; verdict.className = 'verdict on ' + (good ? 'good' : 'bad');
@@ -680,9 +787,9 @@ const VIDEOS = [
 VIDEOS.forEach((v, i) => { v.tx = TX['c' + (i + 1)]; });
 // repasos que aparecen entre cápsulas (práctica de recuperación, cortos)
 const EX_FEED = {
-  1: { type: 'pairs', q: 'Une cada herramienta con su trabajo', pairs: [['Node', 'Hace correr las herramientas'], ['FFmpeg', 'La navaja suiza del video'], ['Chrome', 'Dibuja cada cuadro sin ventana'], ['Code', 'La pestaña donde Claude trabaja']], why: 'Ese es tu estudio completo. ¡Lo armaste en la cápsula 2!' },
-  3: { type: 'order', q: 'Arma la regla de oro de CLAUDE.md', words: ['Si', 'no', 'dije', 'el', 'formato,', 'pregúntame'], answer: 'Si no dije el formato, pregúntame', why: 'Así Claude no inventa: pregunta antes de construir.' },
-  4: { type: 'choice', q: 'Claude va a generar una voz con ElevenLabs. ¿Qué debe hacer antes?', opts: ['Generarla de una vez, es rápido', 'Decirte cuánto va a gastar y esperar tu sí', 'Pedirte la clave por el chat'], ok: 1, why: 'Regla 6: antes de gastar en IA, avisa el costo y espera tu sí.' },
+  1: { type: 'pairs', ctx: 'En la cápsula 2 armaste tu estudio con cuatro piezas.', q: 'Une cada herramienta con su trabajo', pairs: [['Node', 'Hace correr las herramientas'], ['FFmpeg', 'La navaja suiza del video'], ['Chrome', 'Dibuja cada cuadro sin ventana'], ['Code', 'La pestaña donde Claude trabaja']], why: 'Ese es tu estudio completo. ¡Lo armaste en la cápsula 2!' },
+  3: { type: 'order', ctx: 'CLAUDE.md son las reglas que Claude lee antes de trabajar. La más importante evita que invente.', q: 'Arma la regla de oro de CLAUDE.md', words: ['Si', 'no', 'dije', 'el', 'formato,', 'pregúntame'], answer: 'Si no dije el formato, pregúntame', why: 'Así Claude no inventa: pregunta antes de construir.' },
+  4: { type: 'choice', ctx: 'ElevenLabs cobra por cada voz que genera.', q: 'Claude va a generar una voz con ElevenLabs. ¿Qué debe hacer antes?', opts: ['Generarla de una vez, es rápido', 'Decirte cuánto va a gastar y esperar tu sí', 'Pedirte la clave por el chat'], ok: 1, why: 'Regla 6: antes de gastar en IA, avisa el costo y espera tu sí.' },
 };
 let feedBuilt = false, muted = false, needUnmute = false, activeSlide = null;
 const done = new Set(); let practicePassed = false, projectPassed = false;
@@ -697,7 +804,7 @@ const railHTML = (i) => `
     <button class="rbtn bly" type="button" aria-label="Leer con calma"><span class="ico">${ICON.ly}</span>Leer</button>
     <button class="rbtn bdl" type="button" aria-label="Descargar la guía"><span class="ico">${ICON.dl}</span>Guía</button>
     <button class="rbtn glow bpr" type="button" aria-label="Hacer práctica"><span class="ico">${ICON.prac}</span>Práctica<span class="coach">${['Mira lo que vas a crear', 'Instálalo mientras ves', 'Copia los comandos', 'Copia las 6 reglas', 'Prepara tu clave', 'Crea tu video'][i]}</span></button>
-    <button class="rbtn bmore" type="button" aria-label="Más opciones" aria-expanded="false"><span class="ico">${ICON.more}</span>Más</button>
+    <button class="rbtn bmore" type="button" aria-label="Consulta con el tutor, apuntes, velocidad, guardar y compartir"><span class="ico cyc">${[ICON.ask, ICON.note, ICON.speed, ICON.save, ICON.share].map((x) => `<i>${x}</i>`).join('')}</span><span class="cyl"><i>Consulta</i><i>Apuntes</i><i>Velocidad</i><i>Guardar</i><i>Compartir</i></span></button>
   </div>`;
 const moreHTML = () => `
   <div class="moremenu" role="menu">
@@ -723,7 +830,6 @@ const videoSlide = (v, i) => `
       <div class="endcard" aria-live="polite"><b>${EX_FEED[i] ? '¿Lo repasamos en 20 segundos?' : i === 5 ? '¡Tu turno de crear!' : 'Siguiente cápsula en un momento'}</b><small>${EX_FEED[i] ? 'Un ejercicio corto ayuda a que no se te olvide.' : i === 5 ? 'Abre la práctica: 10 pasos para tu primer video.' : 'Desliza hacia arriba o espera.'}</small><div class="row">${EX_FEED[i] ? '<button class="btn hl" type="button" data-next>Ir al repaso ↓</button>' : '<button class="btn hl bigglow ecpr" type="button">Hacer práctica</button>'}</div></div>
       <div class="reader" aria-label="Lectura"><header>Lectura · Cápsula ${i + 1}<button class="rclose" type="button" aria-label="Cerrar lectura">${ICON.x}</button></header><article class="rbody"></article></div>
       ${railHTML(i)}
-      ${moreHTML()}
     </div>
   </div>`;
 const exSlide = (i) => `<div class="slide" data-kind="ex" data-ex="${i}" data-key="ex${i}"><div class="cardslide"><span class="badge">REPASO · +XP</span><div class="exroot" style="display:grid;gap:18px"></div>${SWIPE('Desliza para seguir')}</div></div>`;
@@ -914,14 +1020,13 @@ const setupVideo = (slide) => {
   $('.bdl', slide).addEventListener('click', downloadGuide);
   $('.bpr', slide).addEventListener('click', () => { coachDone = true; slide.classList.remove('coach-on'); openPanel('practice'); });
   const bm = $('.bmore', slide);
-  bm.addEventListener('click', (e) => { e.stopPropagation(); const on = slide.classList.toggle('more'); bm.setAttribute('aria-expanded', String(on)); refreshMenus(); });
-  $('.moremenu', slide).addEventListener('click', (e) => {
-    const b = e.target.closest('[data-m]'); if (!b) return; const m = b.dataset.m;
-    if (m === 'ask' || m === 'notes') { slide.classList.remove('more'); openPanel(m); }
-    if (m === 'speed') { rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length]; $$('#feed video').forEach((x) => { x.playbackRate = rate; }); refreshMenus(); toast('Velocidad ' + rateTxt()); }
-    if (m === 'save') { saved = !saved; refreshMenus(); toast(saved ? 'Guardado en tu ruta' : 'Quitado de guardados'); }
-    if (m === 'share') { slide.classList.remove('more'); share(); }
-  });
+  bm.addEventListener('click', (e) => { e.stopPropagation(); openPanel('ask'); });
+};
+const moreAction = (m) => {
+  if (m === 'ask' || m === 'notes') openPanel(m);
+  if (m === 'speed') { rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length]; $$('#feed video').forEach((x) => { x.playbackRate = rate; }); refreshMenus(); toast('Velocidad ' + rateTxt()); }
+  if (m === 'save') { saved = !saved; refreshMenus(); toast(saved ? 'Guardado en tu ruta' : 'Quitado de guardados'); }
+  if (m === 'share') share();
 };
 const rateTxt = () => String(rate).replace('.', ',') + '×';
 const refreshMenus = () => { $$('.spd').forEach((e) => { e.textContent = rateTxt(); }); $$('.svd').forEach((e) => { e.textContent = saved ? '✓' : ''; }); $$('.ncount').forEach((e) => { e.textContent = notes.length ? String(notes.length) : ''; }); };
@@ -958,13 +1063,15 @@ const STEPS = [
   { v: 4, t: 33.6, a: 'Guárdala fuera del proyecto', b: 'En C:\\Users\\tú\\.claves\\elevenlabs.env', c: 'ELEVENLABS_API_KEY=tu_clave' },
   { v: 5, t: 2.1, a: 'Pide tu video con las 5 piezas', b: 'Estilo, tema, formato, voz… y "pregúntame lo que falte".' },
 ];
+["Es donde conversas con Claude. La pestaña Code le deja crear y guardar archivos en tu computadora.", "HyperFrames y las skills funcionan sobre Node. Sin él, los comandos que empiezan con npx no existen.", "FFmpeg pega imágenes y voz en un solo MP4. Cerrar y abrir la ventana hace que Windows lo reconozca.", "Si alguno dice «no se reconoce», cierra y abre PowerShell. Si sigue igual, repite ese paso.", "La primera vez descarga un Chrome sin ventana que dibuja cada cuadro. Puede tardar uno o dos minutos.", "Las skills son manuales que Claude lee antes de trabajar: así sabe animar, medir y exportar.", "Claude lo lee al empezar cada conversación. Evita que invente formatos o gaste sin avisarte.", "La clave funciona como una contraseña de tu cuenta de voz. Con permiso solo de texto a voz, es más segura.", "Fuera del proyecto nunca se sube a GitHub ni se comparte por error. Claude la usa sin mostrarla.", "Ejemplo: «Estilo collage, tema: cómo ahorrar, vertical de 1 minuto, voz de ElevenLabs. Antes de construir, pregúntame lo que falte.»"].forEach((w, k) => { STEPS[k].w = w; });
 prog.steps = 0;
-const GUIDE = () => `GUÍA · CREAR VIDEOS CON CLAUDE (Píldora)\n\n${STEPS.map((s, i) => `${i + 1}. ${s.a}\n   ${s.b}${s.c ? '\n   > ' + s.c.replace(/\n/g, '\n   > ') : ''}`).join('\n\n')}\n\nCLAUDE.md · las 6 reglas\n1. Cada video en su propia carpeta.\n2. Las herramientas compartidas no llevan colores ni marcas.\n3. Si no dije el formato o el estilo, pregúntame.\n4. Anota cada corrección en APRENDIZAJES.md del proyecto.\n5. Las claves van fuera del proyecto y nunca se leen ni se muestran.\n6. Antes de gastar en IA, dime cuánto cuesta y espera mi sí.\n\nPedido con 5 piezas\n- Estilo: pega el prompt del estilo (AI Style Atlas).\n- Tema: en una frase.\n- Formato: vertical u horizontal, y duración.\n- Voz: ElevenLabs o tu propio audio (Parakeet).\n- Llave maestra: "antes de construir, pregúntame lo que falte".\n`;
+const GUIDE = () => `GUÍA · CREAR VIDEOS CON CLAUDE (Píldora)\n\n${STEPS.map((s, i) => `${i + 1}. ${s.a}\n   ${s.b}\n   Por qué: ${s.w}${s.c ? '\n   > ' + s.c.replace(/\n/g, '\n   > ') : ''}`).join('\n\n')}\n\nCLAUDE.md · las 6 reglas\n1. Cada video en su propia carpeta.\n2. Las herramientas compartidas no llevan colores ni marcas.\n3. Si no dije el formato o el estilo, pregúntame.\n4. Anota cada corrección en APRENDIZAJES.md del proyecto.\n5. Las claves van fuera del proyecto y nunca se leen ni se muestran.\n6. Antes de gastar en IA, dime cuánto cuesta y espera mi sí.\n\nPedido con 5 piezas\n- Estilo: pega el prompt del estilo (AI Style Atlas).\n- Tema: en una frase.\n- Formato: vertical u horizontal, y duración.\n- Voz: ElevenLabs o tu propio audio (Parakeet).\n- Llave maestra: "antes de construir, pregúntame lo que falte".\n`;
 const downloadGuide = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([GUIDE()], { type: 'text/plain;charset=utf-8' })); a.download = 'guia-videos-con-claude.txt'; document.body.appendChild(a); a.click(); a.remove(); toast('Descargada: guia-videos-con-claude.txt'); };
-const stepHTML = (s, i) => `<li class="step${done.has(i) ? ' done' : ''}" data-i="${i}"><button class="chk" type="button" aria-label="Marcar paso ${i + 1}" aria-pressed="${done.has(i)}">${ICON.check}</button><div class="txt"><span>${s.a}</span><small>${s.b}</small>${s.c ? `<div class="cmd"><code>${esc(s.c)}</code><button type="button" data-copy="${esc(s.c)}">Copiar</button></div>` : ''}</div><button class="jump" type="button" data-v="${s.v}" data-t="${s.t}">▶ C${s.v + 1}</button></li>`;
+const stepHTML = (s, i) => `<li class="step${done.has(i) ? ' done' : ''}" data-i="${i}"><button class="chk" type="button" aria-label="Marcar paso ${i + 1}" aria-pressed="${done.has(i)}">${ICON.check}</button><div class="txt"><span>${s.a}</span><small>${s.b}</small><em class="why">${s.w}</em>${s.c ? `<div class="cmd"><code>${esc(s.c)}</code><button type="button" data-copy="${esc(s.c)}">Copiar</button></div>` : ''}</div><button class="jump" type="button" data-v="${s.v}" data-t="${s.t}">▶ C${s.v + 1}</button></li>`;
 const renderPractice = () => {
   $('#pr-body').innerHTML = `
     <div class="box"><div class="file"><span class="xl">TXT</span><div><b>guia-videos-con-claude.txt</b><small>Los 10 pasos, los comandos y las 6 reglas</small></div><button class="btn" type="button" id="pr-dl">Descargar</button></div></div>
+    <p class="intro"><b>Qué vas a lograr:</b> tu primer video hecho con Claude. Son 10 pasos, unos 25 minutos. Haz cada uno con la cápsula al lado: el botón <b>▶</b> te lleva al segundo exacto donde se explica. Marca el círculo cuando lo termines.</p>
     <div class="sec"><h3>Tu estudio (una sola vez)</h3></div><ul class="steps">${STEPS.slice(0, 6).map(stepHTML).join('')}</ul>
     <div class="sec"><h3>Tus reglas y tu voz</h3></div><ul class="steps">${STEPS.slice(6, 9).map((s, k) => stepHTML(s, k + 6)).join('')}</ul>
     <div class="sec"><h3>Tu primer video</h3></div><ul class="steps">${STEPS.slice(9).map((s, k) => stepHTML(s, k + 9)).join('')}</ul>
@@ -1042,20 +1149,29 @@ const QA = [
   { q: '¿Necesito saber programar?', k: /program|codigo|saber/, a: 'No. Claude escribe el código; tú das el pedido, contestas sus preguntas y revisas. Lo único "técnico" son unos comandos que copias de la pantalla.', j: [0, 8.2, 'Lo escribe Claude'] },
   { q: '¿Funciona en Mac?', k: /mac|apple/, a: 'Sí. La app de Claude funciona en Windows y Mac. En Mac, FFmpeg se instala distinto: pídele a Claude que lo haga por ti.', j: [1, 54.2, 'El truco'] },
   { q: '¿Cuánto cuesta la voz?', k: /cost|precio|cuesta|voz|eleven/, a: 'ElevenLabs trae 10.000 caracteres gratis al mes, unos 10 minutos de voz. Y si usas tu propia voz con Parakeet, no cuesta nada.', j: [4, 16.0, 'Plan gratis'] },
+  { q: '¿Me das la respuesta del repaso?', k: /respuesta|solucion|resuelve|dime cual/, a: 'Te doy una pista mejor: lo que recuerdas tú se queda más que lo que te digo yo. Piensa qué herramienta pone el sonido y cuál pega las piezas al final. ¿Cuál dirías que va primero?' },
   { q: '¿Qué hago si sale un error?', k: /error|falla|no funciona/, a: 'Copia el mensaje completo y pégaselo a Claude. Leer errores es su especialidad: casi siempre lo resuelve en un paso.', j: [2, 53.3, 'Si sale un error'] },
 ];
-const chat = [{ me: false, x: '¡Hola! Soy el tutor de este curso. Pregúntame lo que no te quedó claro.' }];
+const chat = []; let greeted = null;
+const VTITLES = ['qué vas a crear', 'tu estudio', 'las skills y CLAUDE.md', 'las reglas', 'tu voz con ElevenLabs', 'el pedido de 5 piezas'];
 const msgHTML = (m) => `<div class="msg ${m.me ? 'me' : 'bot'}">${esc(m.x)}${m.j ? `<div><button class="jump" type="button" data-v="${m.j[0]}" data-t="${m.j[1]}" style="margin-top:8px">▶ ${m.j[2]} · C${m.j[0] + 1}</button></div>` : ''}</div>`;
 const renderAsk = () => {
-  $('#ask-body').innerHTML = `<div class="chatp" id="chatp">${chat.map(msgHTML).join('')}</div><div class="chips" id="ask-chips">${QA.map((x, k) => `<button class="chip" type="button" data-k="${k}">${x.q}</button>`).join('')}</div><form class="askbar" id="ask-form" autocomplete="off"><input id="ask-in" type="text" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta"><button class="send" type="submit" aria-label="Enviar pregunta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></form>`;
+  $('#ask-body').innerHTML = `<div class="tools" id="ask-tools"><button type="button" data-m="notes">${ICON.note}Apuntes<small class="ncount"></small></button><button type="button" data-m="speed">${ICON.speed}Velocidad <small class="spd">1×</small></button><button type="button" data-m="save">${ICON.save}Guardar<small class="svd"></small></button><button type="button" data-m="share">${ICON.share}Compartir</button></div><div class="chatp" id="chatp">${chat.map(msgHTML).join('')}</div><div class="chips" id="ask-chips">${QA.map((x, k) => `<button class="chip" type="button" data-k="${k}">${x.q}</button>`).join('')}</div><form class="askbar" id="ask-form" autocomplete="off"><input id="ask-in" type="text" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta"><button class="send" type="submit" aria-label="Enviar pregunta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></form>`;
+  $('#ask-tools').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (b) moreAction(b.dataset.m); }); refreshMenus();
+  const { i, v } = curVideo(), key = i + ':' + Math.floor((v?.currentTime || 0) / 10);
+  if (greeted !== key) { greeted = key; tutorSay(`Hola, ${NAME()}. Vas en la cápsula ${i + 1}, ${VTITLES[i]}, en el minuto ${fmtT(v?.currentTime || 0)}. ¿Qué parte quieres que veamos? Te voy guiando con preguntas para que lo resuelvas tú.`); }
   $('#ask-chips').addEventListener('click', (e) => { const c = e.target.closest('.chip'); if (c) askQ(QA[+c.dataset.k].q, QA[+c.dataset.k]); });
   $('#ask-form').addEventListener('submit', (e) => { e.preventDefault(); const q = $('#ask-in').value.trim(); if (!q) return; $('#ask-in').value = ''; askQ(q, QA.find((x) => x.k.test(norm(q)))); });
+};
+const tutorSay = async (x, j) => {
+  const box = $('#chatp'), body = $('#ask-body'); box.insertAdjacentHTML('beforeend', '<div class="msg bot" id="typing"><span class="typing"><i></i><i></i><i></i></span></div>'); body.scrollTop = body.scrollHeight;
+  await sleep(700); const m = { me: false, x, j }; chat.push(m); $('#typing')?.remove(); if (box.isConnected) { box.insertAdjacentHTML('beforeend', msgHTML(m)); body.scrollTop = body.scrollHeight; }
 };
 const askQ = async (q, hit) => {
   chat.push({ me: true, x: q }); const box = $('#chatp'); box.insertAdjacentHTML('beforeend', msgHTML(chat[chat.length - 1]));
   box.insertAdjacentHTML('beforeend', '<div class="msg bot" id="typing"><span class="typing"><i></i><i></i><i></i></span></div>'); const body = $('#ask-body'); body.scrollTop = body.scrollHeight;
   await sleep(900 + Math.random() * 600);
-  const m = hit ? { me: false, x: hit.a, j: hit.j } : { me: false, x: 'Buena pregunta. En este prototipo tu consulta queda enviada al instructor, que responde en menos de 24 horas.' };
+  const m = hit ? { me: false, x: hit.a, j: hit.j } : { me: false, x: 'Vamos por partes: ¿en qué paso estás y qué ves en la pantalla? Si hay un mensaje de error, pégalo aquí. Tu pregunta también le llega al instructor.' };
   chat.push(m); $('#typing')?.remove(); box.insertAdjacentHTML('beforeend', msgHTML(m)); body.scrollTop = body.scrollHeight;
 };
 $('#ask-body').addEventListener('click', (e) => { const j = e.target.closest('.jump[data-v]'); if (j) goVideo(+j.dataset.v, +j.dataset.t); });
@@ -1065,7 +1181,7 @@ const PANELS = { practice: '#p-practice', project: '#p-project', notes: '#p-note
 const openPanel = (which) => {
   closePanels();
   const p = $(PANELS[which] || PANELS.practice);
-  if (which === 'project') renderProject(); else if (which === 'notes') { const { s } = curVideo(); if (s) pauseV(s); renderNotes(); } else if (which === 'ask') renderAsk(); else renderPractice();
+  if (which === 'project') renderProject(); else if (which === 'notes') { const { s } = curVideo(); if (s) pauseV(s); renderNotes(); } else if (which === 'ask') { const { s } = curVideo(); if (s) pauseV(s); renderAsk(); } else renderPractice();
   p.classList.add('on'); p.setAttribute('aria-hidden', 'false'); $('#scrim').classList.add('on'); document.body.classList.add('panel-open');
 };
 const closePanels = () => { $$('.panel').forEach((p) => { p.classList.remove('on'); p.setAttribute('aria-hidden', 'true'); }); $('#scrim').classList.remove('on'); document.body.classList.remove('panel-open'); };
