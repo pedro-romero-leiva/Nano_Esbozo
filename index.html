@@ -131,6 +131,22 @@ h1, h2 { text-wrap: balance; margin: 0; }
 .oc .pr { font-weight: 800; font-size: 15px; }
 @media (max-width: 420px) { .feat { grid-template-columns: 1fr; } .feat .pv { width: 64%; margin: 0 auto; } }
 
+/* tu curso: una sola tarjeta, una sola decisión */
+.solo { max-width: 360px; align-items: center; text-align: center; gap: 14px; }
+.solo .pv { position: relative; width: min(62vw, 230px, 30dvh); aspect-ratio: 9/16; margin-bottom: 10px; border-radius: 18px; overflow: hidden; background: #000; box-shadow: 0 20px 44px rgba(0,0,0,.28); transform: rotate(-2deg); }
+.solo .pv video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.solo .pv span { position: absolute; left: 10px; right: 10px; bottom: 10px; background: var(--hl); color: var(--hl-ink); font-size: 12px; font-weight: 800; border-radius: 8px; padding: 5px 8px; }
+.solo h2 { font: 400 36px/1 var(--display); }
+.solo .meta { color: var(--muted); font-weight: 600; margin: 0; }
+.solo .btn { width: 100%; font-size: 18px; padding: 17px 22px; }
+/* aviso de deslizar */
+.swipe { position: absolute; left: 0; right: 0; bottom: calc(22px + var(--safe-b)); display: grid; justify-items: center; gap: 2px; color: rgba(255,255,255,.75); font-weight: 800; font-size: 13px; letter-spacing: .04em; pointer-events: none; opacity: 0; transition: opacity .4s; }
+.swipe.on { opacity: 1; }
+.swipe svg { animation: hint 1.3s ease-in-out infinite; }
+@keyframes hint { 0%, 100% { transform: translateY(6px); opacity: .5; } 50% { transform: translateY(-6px); opacity: 1; } }
+.dprog { display: flex; gap: 6px; }
+.dprog i { flex: 1; height: 6px; border-radius: 6px; background: rgba(255,255,255,.18); }
+.dprog i.on { background: var(--ok); }
 /* hoja de compra simulada */
 .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--paper); border-radius: 24px 24px 0 0; padding: 22px max(18px, env(safe-area-inset-right, 0px)) calc(24px + var(--safe-b)) max(18px, env(safe-area-inset-left, 0px)); transform: translateY(105%); transition: transform .4s cubic-bezier(.2,.8,.2,1); box-shadow: 0 -20px 60px rgba(0,0,0,.35); display: grid; gap: 14px; max-width: 560px; margin: 0 auto; }
 .sheet.on { transform: none; }
@@ -415,84 +431,34 @@ textarea.nt { font: 500 15px/1.45 var(--ui); padding: 12px 14px; border-radius: 
 <!-- 1 · Entrar con tu nombre (prototipo) -->
 <section class="screen on" id="s-login" aria-label="Entrar">
   <form class="center" id="f-login" autocomplete="off">
-    <div class="peek" aria-hidden="true"><img alt="" data-poster="c2"><img alt="" data-poster="c1"><img alt="" data-poster="c5"><span class="tag">1 MINUTO · 1 IDEA</span></div>
     <div>
       <h1 class="wordmark">píldora</h1>
-      <p class="lead" style="margin-top:10px">Aprende en cápsulas de un minuto, practica y <span class="mark sweep">crea algo real</span>.</p>
+      <p class="lead" style="margin-top:10px">Un minuto al día. <span class="mark sweep">Aprendes haciendo.</span></p>
     </div>
     <label class="field">¿Cómo te llamas?<input id="name" type="text" maxlength="24" placeholder="Tu nombre" autocomplete="given-name"></label>
     <button class="btn" id="b-login" type="submit" disabled>Iniciar sesión</button>
-    <p class="fine">Prototipo · no se crea ninguna cuenta ni se guarda nada fuera de este navegador.</p>
+    <p class="fine">Prototipo · no se crea ninguna cuenta.</p>
   </form>
 </section>
 
-<!-- 2 · ¿Qué quieres aprender hoy? -->
-<section class="screen" id="s-ask" aria-label="Elegir tema">
-  <div class="center">
-    <p class="wordmark sm">píldora</p>
-    <h1 class="hello" id="ask-hello">Hola. ¿Qué quieres <span class="mark">aprender</span> hoy?</h1>
-    <form class="prompt" id="f-ask" autocomplete="off">
-      <input id="ask" type="text" placeholder="Escribe un tema…" aria-label="Tema">
-      <button class="send" id="b-send" type="submit" aria-label="Enviar" disabled><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-    </form>
-    <div class="chips" id="chips"><button class="chip" type="button">Inteligencia artificial</button><button class="chip" type="button">Excel</button><button class="chip" type="button">Fotografía</button><button class="chip" type="button">Finanzas personales</button></div>
-  </div>
-</section>
-
-<!-- 3 · Chat guiado -->
+<!-- 2 · Chat guiado -->
 <section class="screen" id="s-chat" aria-label="Conversación guiada">
   <div class="chathead"><span class="av">P</span><div><b>Tu guía de Píldora</b><small id="chat-sub">Te hago 4 preguntas rápidas</small></div></div>
   <div class="thread" id="thread" aria-live="polite"></div>
   <div class="answers" id="answers"></div>
 </section>
 
-<!-- 4 · Buscando cursos -->
-<section class="screen" id="s-build" aria-label="Buscando cursos">
-  <div class="center">
-    <span class="eyebrow">Solo para ti</span>
-    <h1 class="hello" style="font-size:30px" id="build-title">Buscando tus cursos de <span class="mark">IA</span></h1>
-    <div class="ring" aria-hidden="true"><svg width="132" height="132" viewBox="0 0 132 132"><circle cx="66" cy="66" r="58" fill="none" stroke="var(--line)" stroke-width="8"/><circle id="ring-arc" cx="66" cy="66" r="58" fill="none" stroke="var(--ink)" stroke-width="8" stroke-linecap="round" stroke-dasharray="364.4" stroke-dashoffset="364.4"/></svg><b id="ring-n">0</b></div>
-    <div class="cloud" id="cloud" aria-hidden="true"></div>
-    <ul class="steps-live" id="live" aria-live="polite"></ul>
-  </div>
-</section>
-
-<!-- 5 · Cursos encontrados -->
+<!-- 3 · Tu curso -->
 <section class="screen" id="s-shop" aria-label="Cursos para ti">
-  <div class="center">
-    <div><span class="eyebrow" id="shop-eyebrow">Encontramos estos cursos para ti</span><h1 class="hello" style="font-size:30px;margin-top:6px">Tu mejor punto de partida</h1></div>
-    <article class="feat">
-      <div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Así se verá tu proyecto final</span></div>
-      <div>
-        <span class="badge">★ 98 % para ti</span>
-        <h2>Crear videos con Claude</h2>
-        <div class="stars">★★★★★ 4,9 <span>· 1.284 estudiantes</span></div>
-        <div class="meta">6 cápsulas · 9 min · ejercicios · práctica · proyecto</div>
-        <ul><li>Instala tu estudio paso a paso</li><li>Escribe el prompt que dirige el video</li><li>Termina con tu propio video explicativo</li></ul>
-        <div class="price"><b>$7.99</b><s>$19.99</s></div>
-        <button class="btn hl bigglow" type="button" id="b-buy" style="width:100%">Comprar curso</button>
-      </div>
-    </article>
-    <span class="eyebrow">También te puede interesar</span>
-    <div class="others" id="others"></div>
+  <div class="center solo">
+    <span class="eyebrow" id="shop-eyebrow">Tu curso ideal</span>
+    <div class="pv"><video id="pv" muted loop playsinline preload="metadata" src="Excel-1.mp4"></video><span>Esto vas a crear</span></div>
+    <h2>Crear videos con Claude</h2>
+    <p class="meta">6 cápsulas de 1 minuto · ★ 4,9</p>
+    <button class="btn hl bigglow" type="button" id="b-buy">Comprar · $7.99</button>
   </div>
 </section>
-<div class="scrim2" id="scrim2"></div>
-<div class="sheet" id="buy" role="dialog" aria-label="Confirmar compra">
-  <h3>Confirmar compra</h3>
-  <div class="sumrow"><span>Crear videos con Claude</span><span>$7.99</span></div>
-  <div class="sumrow"><span>Acceso de por vida</span><span>Incluido</span></div>
-  <div class="sumrow tot"><span>Total</span><span>$7.99</span></div>
-  <button class="btn" id="b-pay" type="button">Pagar $7.99 (simulado)</button>
-  <p class="fine">Prototipo: no se cobra nada ni se piden datos de pago.</p>
-</div>
-
-<!-- 6 · Mini diagnóstico -->
-<section class="screen" id="s-diag" aria-label="Mini diagnóstico">
-  <div class="center" id="diag"></div>
-</section>
-
-<!-- 7 · Mis cursos -->
+<!-- 4 · Mis cursos -->
 <section class="screen" id="s-library" aria-label="Mis cursos">
   <div class="center">
     <div class="libhead"><p class="wordmark sm">píldora</p><button class="link" id="b-logout" type="button">Cerrar sesión</button></div>
@@ -561,7 +527,9 @@ const ICON = {
 
 // ---------- estado del prototipo (solo en este navegador) ----------
 const SKEY = 'pildora-claude';
-const ST = (() => { try { return JSON.parse(localStorage.getItem(SKEY) || '{}') || {}; } catch { return {}; } })();
+// ?reset en el enlace empieza la demo desde cero
+if (/[?&]reset\b/.test(location.search)) { try { localStorage.removeItem(SKEY); localStorage.removeItem('pildora-claude-apuntes'); } catch {} history.replaceState(null, '', location.pathname); }
+const ST =(() => { try { return JSON.parse(localStorage.getItem(SKEY) || '{}') || {}; } catch { return {}; } })();
 const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(ST)); } catch {} };
 const today = () => new Date().toISOString().slice(0, 10);
 const touchStreak = () => {
@@ -584,174 +552,120 @@ const NAME = () => ST.name || 'tú';
 $('#name').addEventListener('input', () => { $('#b-login').disabled = !$('#name').value.trim(); });
 $('#f-login').addEventListener('submit', (e) => {
   e.preventDefault(); const n = $('#name').value.trim(); if (!n) return;
-  ST.name = n.charAt(0).toUpperCase() + n.slice(1); ST.logged = true; touchStreak(); persist(); goAsk();
+  ST.name = n.charAt(0).toUpperCase() + n.slice(1); ST.logged = true; touchStreak(); persist(); startChat();
 });
-const goAsk = () => { $('#ask-hello').innerHTML = `Hola, ${esc(NAME())}. ¿Qué quieres <span class="mark">aprender</span> hoy?`; typed = false; $('#ask').value = ''; $('#b-send').disabled = true; show('s-ask'); setTimeout(() => $('#ask').focus({ preventScroll: true }), 300); };
 
-// ---------- 2 · el tema se completa solo ----------
-const TOPIC = 'Inteligencia artificial';
-let typed = false, typing = false;
-const autotype = async () => {
-  if (typed || typing) return; typing = true; const inp = $('#ask'); inp.value = '';
-  for (const ch of TOPIC) { inp.value += ch; await sleep(55); }
-  typed = true; typing = false; $('#b-send').disabled = false;
-};
-$('#ask').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); typed ? startChat() : autotype(); return; } if (e.key === 'Tab') return; e.preventDefault(); autotype(); });
-$('#ask').addEventListener('beforeinput', (e) => { e.preventDefault(); autotype(); });
-$('#ask').addEventListener('pointerdown', () => setTimeout(autotype, 200));
-$('#chips').addEventListener('click', (e) => { if (e.target.closest('.chip')) autotype(); });
-$('#f-ask').addEventListener('submit', (e) => { e.preventDefault(); typed ? startChat() : autotype(); });
-
-// ---------- 3 · chat guiado: siempre con botones, y siempre orienta al curso de videos ----------
+// ---------- 2 · chat guiado: dos toques y una búsqueda corta ----------
 const ans = {};
-const botSay = async (html, wait = 650) => {
+const botSay = async (html, wait = 350) => {
   const th = $('#thread'); const t = document.createElement('div'); t.className = 'msg bot'; t.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>'; th.appendChild(t); th.scrollTop = th.scrollHeight;
-  await sleep(wait + Math.min(900, html.length * 9)); t.innerHTML = html; th.scrollTop = th.scrollHeight;
+  await sleep(wait + Math.min(500, html.length * 5)); t.innerHTML = html; th.scrollTop = th.scrollHeight;
 };
 const meSay = (txt) => { const th = $('#thread'); const t = document.createElement('div'); t.className = 'msg me'; t.textContent = txt; th.appendChild(t); th.scrollTop = th.scrollHeight; };
 const offer = (opts) => new Promise((res) => {
-  const box = $('#answers'); box.innerHTML = opts.map((o, i) => `<button type="button" data-i="${i}" style="animation-delay:${i * 70}ms">${o}</button>`).join('');
+  const box = $('#answers'); box.innerHTML = opts.map((o, i) => `<button type="button" data-i="${i}" style="animation-delay:${i * 60}ms">${o}</button>`).join('');
   box.onclick = (e) => { const b = e.target.closest('button'); if (!b) return; box.innerHTML = ''; meSay(opts[+b.dataset.i]); res(+b.dataset.i); };
 });
 const startChat = async () => {
-  show('s-chat'); $('#thread').innerHTML = ''; $('#answers').innerHTML = '';
-  await botSay(`¡Hola, <b>${esc(NAME())}</b>! Elegiste inteligencia artificial: buena decisión. Te hago 4 preguntas para encontrar tu curso ideal.`, 400);
-  await botSay('¿Qué te gustaría <b>crear</b> con IA?');
-  ans.crear = await offer(['Videos', 'Textos', 'Imágenes', 'Apps']);
-  if (ans.crear === 0) await botSay('¡Excelente! Los videos explicativos son lo que más engancha hoy, y con IA ya se hacen sin cámara.');
-  else await botSay('Muy buena opción. Un dato curioso: hoy la IA ya hace <b>videos completos</b>, con voz y animación, a partir de un texto. Y lo aprendes en minutos.');
-  await botSay('¿Has usado <b>Claude</b> alguna vez?');
-  ans.claude = await offer(['Nunca', 'Un poco', 'Bastante']);
-  await botSay(['Perfecto, empezamos desde la instalación, paso a paso.', 'Genial, vas a ver cosas que el chat solo no hace.', '¡Bien! Vas a llevarlo a otro nivel: de chatear a producir.'][ans.claude]);
-  await botSay('¿Para qué lo usarías?');
-  ans.para = await offer(['Mi trabajo', 'Mis clases', 'Redes sociales']);
-  await botSay('¿Cuánto tiempo tienes al día? Con poco basta.');
+  show('s-chat'); $('#thread').innerHTML = ''; $('#answers').innerHTML = ''; $('#chat-sub').textContent = 'Dos preguntas y empiezas';
+  await botSay(`¡Hola, <b>${esc(NAME())}</b>! ¿Qué quieres aprender hoy?`, 250);
+  ans.tema = await offer(['Inteligencia artificial', 'Excel', 'Fotografía']);
+  await botSay(ans.tema === 0 ? '¡Buena elección!' : 'Buena idea. Para empezar, te recomiendo lo que hoy está en todo: la <b>inteligencia artificial</b>.', 150);
+  await botSay('¿Cuánto tiempo tienes al día?', 150);
   ans.tiempo = await offer(['5 minutos', '10 minutos', '15 minutos']);
   ST.goal = [5, 10, 15][ans.tiempo]; ST.ans = ans; persist();
-  await botSay(`Listo, ${esc(NAME())}. Con <b>${ST.goal} minutos al día</b> te alcanza. Busco el curso perfecto para ti…`);
-  await sleep(700); build();
+  const th = $('#thread'), t = document.createElement('div'); t.className = 'msg bot'; t.innerHTML = 'Buscando tu curso ideal…<div class="scan" style="margin-top:8px;width:180px"><i></i></div>'; th.appendChild(t); th.scrollTop = th.scrollHeight;
+  for (const w of [35, 70, 92, 100]) { await sleep(320); $('.scan i', t).style.width = w + '%'; }
+  await sleep(250); ST.onboarded = true; persist(); openShop();
 };
 
-// ---------- 4 · buscando cursos (rápido al inicio, lento al final) ----------
-const build = async () => {
-  show('s-build');
-  const uso = ['tu trabajo', 'tus clases', 'tus redes sociales'][ans.para ?? 0];
-  const nivel = ['desde cero', 'con base', 'avanzado'][ans.claude ?? 0];
-  const lines = [['Leyendo tus respuestas', ''], ['Nivel con Claude', nivel], ['Enfocado en', uso], ['Meta diaria', `${ST.goal || 5} minutos`], ['Comparando 214 cursos de IA', ''], ['Eligiendo el proyecto final', '']];
-  const words = ['Claude', 'video', 'prompt', 'voz', 'HyperFrames', 'skills', 'CLAUDE.md', 'ElevenLabs', 'render', 'agentes'];
-  const live = $('#live'); live.innerHTML = ''; const cloud = $('#cloud'); cloud.innerHTML = '';
-  const arc = $('#ring-arc'), num = $('#ring-n'), T = 5600, t0 = performance.now();
-  let raf; const tick = (now) => { const u = Math.min(1, (now - t0) / T), p = u < 1 ? 1 - Math.pow(1 - u, 2.6) : 1; arc.style.strokeDashoffset = String(364.4 * (1 - p)); num.textContent = u >= 1 ? '100' : Math.min(99, Math.round(p * 100)); if (u < 1) raf = requestAnimationFrame(tick); };
-  raf = requestAnimationFrame(tick);
-  let wi = 0; const wt = setInterval(() => { const s = document.createElement('span'); s.textContent = words[wi % words.length]; s.style.left = [6, 38, 66][wi++ % 3] + '%'; s.style.top = '14px'; cloud.appendChild(s); setTimeout(() => s.remove(), 2600); }, 600);
-  for (const [a, b] of lines) {
-    const li = document.createElement('li'); li.innerHTML = `<span class="ic"></span><span>${a}${b ? ': <em></em>' : '…'}</span>`; live.appendChild(li);
-    if (b) { const em = $('em', li); for (const ch of b) { em.textContent += ch; await sleep(24); } }
-    await sleep(360 + Math.random() * 240); li.classList.add('done'); if (!b) $('span:last-child', li).textContent = a;
-  }
-  await sleep(Math.max(0, T - (performance.now() - t0)) + 250); clearInterval(wt); cancelAnimationFrame(raf);
-  ST.onboarded = true; persist(); openShop();
-};
-
-// ---------- 5 · tienda y compra simulada ----------
+// ---------- 3 · tu curso: una tarjeta y un toque ----------
 const OTHERS = [
   { t: 'Agentes con IA', d: 'Que la IA haga tareas por ti', p: '$9.99', col: '#2b3a67', ini: 'AG' },
   { t: 'Prompts que ahorran horas', d: 'Escribe pedidos que funcionan', p: '$5.99', col: '#a3472f', ini: 'PR' },
   { t: 'Automatiza tu trabajo con IA', d: 'Correos, reportes y hojas', p: '$12.99', col: '#107c41', ini: 'AU' },
 ];
-const openShop = () => {
-  $('#shop-eyebrow').textContent = `${NAME()}, encontramos estos cursos para ti`;
-  $('#others').innerHTML = OTHERS.map((o) => `<button class="oc" type="button"><span class="th" style="background:${o.col}">${o.ini}</span><div><b>${o.t}</b><small>${o.d}</small></div><span class="pr">${o.p}</span></button>`).join('');
-  show('s-shop'); const pv = $('#pv'); pv.play().catch(() => {});
-};
-$('#others').addEventListener('click', (e) => { if (e.target.closest('.oc')) toast('Próximamente: empieza por Crear videos con Claude'); });
-const sheetOn = (on) => { $('#buy').classList.toggle('on', on); $('#scrim2').classList.toggle('on', on); };
-$('#b-buy').addEventListener('click', () => { if (ST.bought) { startDiagOrCourse(); return; } sheetOn(true); });
-$('#scrim2').addEventListener('click', () => sheetOn(false));
-$('#b-pay').addEventListener('click', async () => {
-  const b = $('#b-pay'); b.disabled = true; b.innerHTML = '<span class="typing"><i></i><i></i><i></i></span> Procesando';
-  await sleep(1300); b.innerHTML = '¡Listo! Es tuyo ✓'; b.classList.add('okb'); confetti(); ST.bought = true; persist();
-  await sleep(1100); sheetOn(false); b.disabled = false; b.classList.remove('okb'); b.textContent = 'Pagar $7.99 (simulado)'; $('#pv').pause(); startDiagOrCourse();
+const openShop = () => { $('#shop-eyebrow').textContent = `${NAME()}, este es tu curso ideal`; show('s-shop'); $('#pv').play().catch(() => {}); };
+$('#b-buy').addEventListener('click', async () => {
+  const b = $('#b-buy'); if (ST.bought) { openCourse(false); return; }
+  b.disabled = true; b.textContent = 'Procesando…'; await sleep(700);
+  b.textContent = '¡Es tuyo! ✓'; b.classList.add('okb'); confetti(); ST.bought = true; persist();
+  await sleep(800); $('#pv').pause(); b.disabled = false; openCourse(false);
 });
-const startDiagOrCourse = () => { if (ST.diag) openCourse(false); else startDiag(); };
 
-// ---------- ejercicios reutilizables (diagnóstico y repasos del feed) ----------
+// ---------- ejercicios: se responden con un toque (sin botón "Comprobar") ----------
 // tipos: choice {q, opts, ok, why} · order {q, words, answer, why} · pairs {q, pairs, why}
 const renderEx = (root, ex, onDone, opts = {}) => {
-  root.innerHTML = '';
-  const head = document.createElement('div'); head.style.display = 'grid'; head.style.gap = '14px';
-  head.innerHTML = `${opts.kicker ? `<span class="qkicker">${opts.kicker}</span>` : ''}<p class="qtitle">${ex.q}</p>`;
-  root.appendChild(head);
-  const area = document.createElement('div'); root.appendChild(area);
-  const verdict = document.createElement('div'); verdict.className = 'verdict'; root.appendChild(verdict);
-  const foot = document.createElement('div'); foot.className = 'qfoot'; foot.innerHTML = '<button class="btn" type="button" disabled>Comprobar</button>'; root.appendChild(foot);
-  const btn = $('button', foot); let answered = false, picked = null, line = [];
+  root.innerHTML = `${opts.kicker ? `<span class="qkicker">${opts.kicker}</span>` : ''}<p class="qtitle">${ex.q}</p><div class="exarea"></div><div class="verdict"></div>`;
+  const area = $('.exarea', root), verdict = $('.verdict', root); let answered = false;
   const finish = (good, xp) => {
     answered = true; verdict.className = 'verdict on ' + (good ? 'good' : 'bad');
     verdict.innerHTML = `${good ? (opts.goodTxt || '¡Muy bien!') : (opts.badTxt || 'Casi')}<small>${ex.why}</small>`;
-    btn.disabled = false; btn.textContent = 'Continuar'; btn.className = 'btn ' + (good ? 'okb' : '');
-    if (xp) addXP(xp, verdict);
-    btn.onclick = () => onDone(good);
+    if (xp) addXP(xp, verdict); onDone(good);
   };
   if (ex.type === 'choice') {
-    area.className = 'optlist'; area.innerHTML = ex.opts.map((o, i) => `<button class="blk" type="button" data-i="${i}">${o}</button>`).join('');
-    area.onclick = (e) => { const b = e.target.closest('.blk'); if (!b || answered) return; $$('.blk', area).forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); picked = +b.dataset.i; btn.disabled = false; };
-    btn.onclick = () => { if (answered || picked == null) return; const good = picked === ex.ok; $$('.blk', area)[ex.ok].classList.add('ok'); if (!good) $$('.blk', area)[picked].classList.add('bad'); finish(good, good ? 10 : 2); };
+    area.className = 'exarea optlist'; area.innerHTML = ex.opts.map((o, i) => `<button class="blk" type="button" data-i="${i}">${o}</button>`).join('');
+    area.onclick = (e) => { const b = e.target.closest('.blk'); if (!b || answered) return; const i = +b.dataset.i, good = i === ex.ok; $$('.blk', area)[ex.ok].classList.add('ok'); if (!good) b.classList.add('bad'); finish(good, good ? 10 : 2); };
   }
   if (ex.type === 'order') {
+    let line = [];
     area.innerHTML = `<div class="answerline"></div><div class="blocks" style="margin-top:16px">${shuffle(ex.words.map((w, i) => [w, i])).map(([w, i]) => `<button class="blk" type="button" data-i="${i}">${w}</button>`).join('')}</div>`;
     const ln = $('.answerline', area), bank = $('.blocks', area);
-    const sync = () => { ln.innerHTML = line.map((i) => `<button class="blk" type="button" data-l="${i}">${ex.words[i]}</button>`).join(''); $$('.blk', bank).forEach((b) => b.classList.toggle('used', line.includes(+b.dataset.i))); btn.disabled = line.length !== ex.words.length; };
+    const sync = () => {
+      ln.innerHTML = line.map((i) => `<button class="blk" type="button" data-l="${i}">${ex.words[i]}</button>`).join('');
+      $$('.blk', bank).forEach((b) => b.classList.toggle('used', line.includes(+b.dataset.i)));
+      if (line.length === ex.words.length && !answered) {
+        const good = norm(line.map((i) => ex.words[i]).join(' ')) === norm(ex.answer);
+        $$('.blk', ln).forEach((b) => b.classList.add(good ? 'ok' : 'bad')); if (!good) ex.why = `Era: «${ex.answer}». ` + ex.why; finish(good, good ? 15 : 3);
+      }
+    };
     bank.onclick = (e) => { const b = e.target.closest('.blk'); if (!b || answered || b.classList.contains('used')) return; line.push(+b.dataset.i); sync(); };
     ln.onclick = (e) => { const b = e.target.closest('.blk'); if (!b || answered) return; line = line.filter((i) => i !== +b.dataset.l); sync(); };
-    btn.onclick = () => { if (answered) return; const said = line.map((i) => ex.words[i]).join(' '); const good = norm(said) === norm(ex.answer); $$('.blk', ln).forEach((b) => b.classList.add(good ? 'ok' : 'bad')); if (!good) ex.why = `Era: «${ex.answer}». ` + ex.why; finish(good, good ? 15 : 3); };
   }
   if (ex.type === 'pairs') {
     const L = shuffle(ex.pairs.map((_, i) => i)), R = shuffle(ex.pairs.map((_, i) => i));
-    area.className = 'pairs'; area.innerHTML = `<div class="col">${L.map((i) => `<button class="blk" type="button" data-s="l" data-p="${i}">${ex.pairs[i][0]}</button>`).join('')}</div><div class="col">${R.map((i) => `<button class="blk" type="button" data-s="r" data-p="${i}">${ex.pairs[i][1]}</button>`).join('')}</div>`;
-    foot.hidden = true; let sl = null, sr = null, got = 0, miss = 0;
+    area.className = 'exarea pairs'; area.innerHTML = `<div class="col">${L.map((i) => `<button class="blk" type="button" data-s="l" data-p="${i}">${ex.pairs[i][0]}</button>`).join('')}</div><div class="col">${R.map((i) => `<button class="blk" type="button" data-s="r" data-p="${i}">${ex.pairs[i][1]}</button>`).join('')}</div>`;
+    let sl = null, sr = null, got = 0, miss = 0;
     area.onclick = (e) => {
       const b = e.target.closest('.blk'); if (!b || answered || b.classList.contains('ok')) return;
       if (b.dataset.s === 'l') { sl?.classList.remove('sel'); sl = sl === b ? null : b; } else { sr?.classList.remove('sel'); sr = sr === b ? null : b; }
       b.classList.toggle('sel', b === sl || b === sr);
       if (sl && sr) {
         const a = sl, c = sr; sl = sr = null;
-        if (a.dataset.p === c.dataset.p) { [a, c].forEach((t) => { t.classList.remove('sel'); t.classList.add('ok'); }); setTimeout(() => [a, c].forEach((t) => t.classList.add('gone')), 420); if (++got === ex.pairs.length) { foot.hidden = false; finish(true, miss ? 10 : 20); } }
+        if (a.dataset.p === c.dataset.p) { [a, c].forEach((t) => { t.classList.remove('sel'); t.classList.add('ok'); }); setTimeout(() => [a, c].forEach((t) => t.classList.add('gone')), 420); if (++got === ex.pairs.length) finish(true, miss ? 10 : 20); }
         else { miss++; [a, c].forEach((t) => { t.classList.remove('sel'); t.classList.add('bad'); }); setTimeout(() => [a, c].forEach((t) => t.classList.remove('bad')), 420); }
       }
     };
   }
 };
+// el aviso de deslizar que aparece al terminar un ejercicio
+const SWIPE = (txt) => `<div class="swipe"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><span>${txt}</span></div>`;
 
-// ---------- 6 · mini diagnóstico (pre-test: despierta la curiosidad, no se aprueba ni se reprueba) ----------
+// ---------- mini diagnóstico: las primeras tarjetas del feed, se avanza deslizando ----------
 const DIAG = [
-  { type: 'choice', q: 'Para que Claude haga un video, ¿qué escribe primero?', opts: ['Una página web animada', 'Un archivo de Word', 'Una presentación de PowerPoint'], ok: 0, why: 'Claude escribe HTML animado y una herramienta lo convierte en video. Lo ves en la cápsula 1.' },
-  { type: 'pairs', q: 'Une cada herramienta con lo que hace', pairs: [['ElevenLabs', 'Pone la voz'], ['FFmpeg', 'Une audio y video'], ['HyperFrames', 'Convierte HTML en video']], why: 'Las tres se instalan en las cápsulas 2, 3 y 5.' },
+  { type: 'choice', q: 'Para que Claude haga un video, ¿qué escribe primero?', opts: ['Una página web animada', 'Un archivo de Word', 'Una presentación'], ok: 0, why: 'Claude escribe HTML animado y una herramienta lo convierte en video. Lo ves en la cápsula 1.' },
+  { type: 'pairs', q: 'Une cada herramienta con lo que hace', pairs: [['ElevenLabs', 'Pone la voz'], ['FFmpeg', 'Une audio y video'], ['HyperFrames', 'Convierte HTML en video']], why: 'Las tres aparecen en las cápsulas 2, 3 y 5.' },
   { type: 'order', q: 'Ordena la frase', words: ['Una', 'skill', 'es', 'un', 'manual', 'para', 'Claude'], answer: 'Una skill es un manual para Claude', why: 'Las skills le enseñan a Claude a trabajar como un profesional (cápsula 3).' },
-  { type: 'choice', q: '¿Dónde debe guardarse una clave de API?', opts: ['En el chat, para que Claude la vea', 'Fuera de la carpeta del proyecto', 'Dentro del código del video'], ok: 1, why: 'Las claves viven fuera del proyecto y Claude no las lee (cápsulas 4 y 5).' },
 ];
-const startDiag = () => {
-  show('s-diag'); const root = $('#diag'); let i = 0, hits = 0;
-  const step = () => {
-    if (i >= DIAG.length) return result();
-    root.innerHTML = `<div class="qtop"><button class="link" type="button" id="dg-x" aria-label="Saltar diagnóstico">✕</button><div class="pbar"><i style="width:${i / DIAG.length * 100}%"></i></div><span class="qkicker">${i + 1}/${DIAG.length}</span></div><div id="dg-q" style="display:grid;gap:18px"></div>`;
-    requestAnimationFrame(() => { const b = $('.pbar i', root); if (b) b.style.width = (i / DIAG.length * 100) + '%'; });
-    $('#dg-x').onclick = () => result(true);
-    renderEx($('#dg-q'), DIAG[i], (good) => { if (good) hits++; i++; step(); }, { kicker: i === 0 ? 'Mini diagnóstico · no cuenta para nada' : 'Mini diagnóstico', badTxt: '¡Todavía no lo sabes, y está bien!' });
-  };
-  const result = (skipped) => {
-    ST.diag = { hits, n: DIAG.length }; touchStreak(); persist(); if (!skipped) addXP(20);
-    root.innerHTML = `<div class="result">
-      <span class="eyebrow">Tu punto de partida</span>
-      <div class="big">${hits}/${DIAG.length}</div>
-      <p class="lead">${hits >= 3 ? `¡Vas muy bien, ${esc(NAME())}! Este curso te lleva de saberlo a hacerlo.` : `Perfecto, ${esc(NAME())}: lo que no sabías hoy lo vas a dominar en ${ST.goal || 5} minutos al día.`}</p>
-      <div class="statrow"><div class="stat"><b>${ICON.flame} ${ST.streak || 1}</b><small>Racha</small></div><div class="stat"><b>${ICON.bolt} ${ST.xp}</b><small>XP</small></div><div class="stat"><b>${ST.goal || 5} min</b><small>Meta diaria</small></div></div>
-      <button class="btn hl bigglow" type="button" id="dg-go" style="width:100%">Empezar la cápsula 1 ▶</button>
-    </div>`;
-    $('#dg-go').onclick = () => openCourse(false);
-    if (!skipped) confetti();
-  };
-  step();
+const diagHits = [];
+const diagSlide = (k) => `<div class="slide" data-kind="diag" data-key="diag${k}" data-d="${k}"><div class="cardslide">
+  <div class="dprog">${DIAG.map((_, j) => `<i class="${j < k ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="exroot" style="display:grid;gap:18px"></div>${SWIPE(k < DIAG.length - 1 ? 'Desliza para la siguiente' : 'Desliza para ver tu resultado')}</div></div>`;
+const diagResult = () => `<div class="slide" data-kind="dres" data-key="dres"><div class="cardslide" style="text-align:center;align-items:center"><div class="dresbox" style="display:grid;gap:14px;justify-items:center"></div>${SWIPE('Desliza para empezar la cápsula 1')}</div></div>`;
+const setupDiag = (slide) => {
+  const k = +slide.dataset.d;
+  const sw = $('.swipe', slide), label = $('span', sw), final = label.textContent;
+  if (k === 0) { label.textContent = 'Responde con un toque'; $('svg', sw).style.visibility = 'hidden'; setTimeout(() => sw.classList.add('on'), 700); }
+  renderEx($('.exroot', slide), DIAG[k], (good) => { diagHits[k] = good; $$('.dprog i', slide)[k].classList.add('on'); label.textContent = final; $('svg', sw).style.visibility = ''; sw.classList.add('on'); }, { kicker: k === 0 ? 'Mini diagnóstico · no cuenta para nada' : 'Mini diagnóstico', badTxt: '¡Todavía no lo sabes, y está bien!' });
+};
+const showDiagResult = (slide) => {
+  if (slide.dataset.shown) return; slide.dataset.shown = 1;
+  const hits = diagHits.filter(Boolean).length; ST.diag = { hits, n: DIAG.length }; touchStreak(); persist(); addXP(20);
+  $('.dresbox', slide).innerHTML = `<span class="eyebrow" style="color:rgba(255,255,255,.6)">Tu punto de partida</span>
+    <div style="font:400 84px/1 var(--display);color:#fff">${hits}/${DIAG.length}</div>
+    <p>${hits >= 2 ? `¡Vas muy bien, ${esc(NAME())}!` : `Perfecto, ${esc(NAME())}: en ${ST.goal || 5} minutos al día lo vas a dominar.`}</p>
+    <div class="statrow" style="color:#fff"><div class="stat" style="border-color:rgba(255,255,255,.2)"><b>${ICON.flame} ${ST.streak || 1}</b><small style="color:rgba(255,255,255,.6)">Racha</small></div><div class="stat" style="border-color:rgba(255,255,255,.2)"><b>${ICON.bolt} ${ST.xp}</b><small style="color:rgba(255,255,255,.6)">XP</small></div></div>`;
+  $('.swipe', slide).classList.add('on'); confetti();
 };
 
 // ---------- 7 · el curso ----------
@@ -795,7 +709,7 @@ const moreHTML = () => `
     <button type="button" role="menuitem" data-m="share">${ICON.share}Compartir</button>
   </div>`;
 const videoSlide = (v, i) => `
-  <div class="slide paused" data-kind="video" data-i="${i}">
+  <div class="slide paused" data-kind="video" data-i="${i}" data-key="v${i}">
     <div class="frame">
       <img class="poster" alt="" src="${POSTERS[v.poster]}">
       <video playsinline webkit-playsinline preload="${i ? 'metadata' : 'auto'}" src="${v.src}" poster="${POSTERS[v.poster]}"></video>
@@ -812,14 +726,14 @@ const videoSlide = (v, i) => `
       ${moreHTML()}
     </div>
   </div>`;
-const exSlide = (i) => `<div class="slide" data-kind="ex" data-ex="${i}"><div class="cardslide"><span class="badge">REPASO · +XP</span><div class="exroot" style="display:grid;gap:18px"></div></div></div>`;
+const exSlide = (i) => `<div class="slide" data-kind="ex" data-ex="${i}" data-key="ex${i}"><div class="cardslide"><span class="badge">REPASO · +XP</span><div class="exroot" style="display:grid;gap:18px"></div>${SWIPE('Desliza para seguir')}</div></div>`;
 const RECS = [
   { t: 'Agentes con IA', d: 'Crea asistentes que trabajan por ti, paso a paso.', p: 'c3' },
   { t: 'Prompts que ahorran horas', d: 'Aprende a pedirle a la IA exactamente lo que necesitas.', p: 'c6' },
 ];
 const buildFeed = () => {
   if (feedBuilt) return; feedBuilt = true;
-  let html = '';
+  let html = ST.diag ? '' : DIAG.map((_, k) => diagSlide(k)).join('') + diagResult();
   VIDEOS.forEach((v, i) => { html += videoSlide(v, i); if (EX_FEED[i]) html += exSlide(i); });
   html += `
     <div class="slide" data-kind="meta"><div class="cardslide">
@@ -859,6 +773,8 @@ const buildFeed = () => {
       <h2>${r.t}</h2><p>${r.d}</p><span class="soon">Próximamente en tu ruta</span>
     </div></div>`).join('');
   const feed = $('#feed'); feed.innerHTML = html;
+  $$('.slide').forEach((sl, n) => { if (!sl.dataset.key) sl.dataset.key = sl.dataset.kind + (sl.dataset.kind === 'rec' ? n : ''); });
+  $$('.slide[data-kind="diag"]').forEach(setupDiag);
   $$('.slide[data-kind="video"]').forEach(setupVideo);
   $$('.slide[data-kind="ex"]').forEach(setupExSlide);
   setupMeta($('.slide[data-kind="meta"]'));
@@ -873,7 +789,7 @@ const buildFeed = () => {
 };
 const setupExSlide = (slide) => {
   const k = +slide.dataset.ex, root = $('.exroot', slide);
-  const draw = () => renderEx(root, JSON.parse(JSON.stringify(EX_FEED[k])), () => { prog.ex[k] = 1; ST.ex = { ...(ST.ex || {}), [k]: 1 }; persist(); updSegs(); slide.nextElementSibling?.scrollIntoView({ behavior: 'smooth' }); }, { kicker: 'Repaso rápido' });
+  const draw = () => renderEx(root, JSON.parse(JSON.stringify(EX_FEED[k])), () => { prog.ex[k] = 1; ST.ex = { ...(ST.ex || {}), [k]: 1 }; persist(); updSegs(); $('.swipe', slide).classList.add('on'); }, { kicker: 'Repaso rápido' });
   draw();
 };
 // texto "dictado" simulado: cada tecla o el micrófono revelan una respuesta preparada
@@ -937,6 +853,7 @@ const activate = (slide) => {
   if (activeSlide) pauseV(activeSlide);
   activeSlide = slide;
   if (slide.dataset.kind === 'video') playV(slide);
+  if (slide.dataset.kind === 'dres') showDiagResult(slide);
   if (slide.dataset.kind === 'project' && !practicePassed && !ST.nudged) { ST.nudged = 1; toast('Tip: con la práctica hecha, el proyecto sale solo'); }
 };
 const setupVideo = (slide) => {
@@ -1154,7 +1071,7 @@ const openPanel = (which) => {
 const closePanels = () => { $$('.panel').forEach((p) => { p.classList.remove('on'); p.setAttribute('aria-hidden', 'true'); }); $('#scrim').classList.remove('on'); document.body.classList.remove('panel-open'); };
 $('#scrim').addEventListener('click', closePanels);
 $$('[data-close]').forEach((b) => b.addEventListener('click', closePanels));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closePanels(); sheetOn(false); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanels(); });
 $$('.panel').forEach((p) => {
   let y0 = null; [$('.grab', p), $('header', p)].forEach((el) => {
     el.addEventListener('touchstart', (e) => { y0 = e.touches[0].clientY; }, { passive: true });
@@ -1167,26 +1084,26 @@ $$('.panel').forEach((p) => {
 const openCourse = (fromSaved) => {
   buildFeed(); show('s-feed'); touchStreak(); gamiPaint(); updSegs(); ST.started = true; persist();
   if (practicePassed) $('#pj-lock').textContent = 'Listo para tu proyecto ✓';
-  const slides = $$('.slide'), L = fromSaved && ST.last ? ST.last : { s: 0, t: 0 }, target = slides[Math.min(L.s || 0, slides.length - 1)];
+  const L = fromSaved && ST.last ? ST.last : { k: null, t: 0 }; const target = (L.k && $(`.slide[data-key="${L.k}"]`)) || (fromSaved && $('.slide[data-key="v0"]')) || $('.slide');
   $('#feed').scrollTop = target.offsetTop; activeSlide = null;
   const v = $('video', target);
   if (v && L.t > 1) { const go = () => { v.currentTime = L.t; }; if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true }); }
   activate(target);
-  if (fromSaved && (L.t > 1 || L.s > 0)) toast(v ? `Seguimos donde lo dejaste · Cápsula ${+target.dataset.i + 1}, ${fmtT(L.t)}` : 'Seguimos donde lo dejaste');
+  if (fromSaved && (L.t > 1 || (L.k && L.k !== 'v0'))) toast(v ? `Seguimos donde lo dejaste · Cápsula ${+target.dataset.i + 1}, ${fmtT(L.t)}` : 'Seguimos donde lo dejaste');
 };
 const saveLast = () => {
   if (!$('#s-feed').classList.contains('on') || !activeSlide) return;
   const sl = $$('.slide'), s = sl.indexOf(activeSlide), v = $('video', activeSlide);
   let t = v ? v.currentTime : 0, si = s; if (v && v.duration && (v.ended || t > v.duration - 1.5)) { si = Math.min(sl.length - 1, s + 1); t = 0; }
-  ST.last = { s: si, t: Math.round(t * 10) / 10 }; ST.pv = prog.v; ST.min = Math.min((ST.min || 0) + 2 / 60, 60); persist();
+  ST.last = { k: sl[si].dataset.key, t: Math.round(t * 10) / 10 }; ST.pv = prog.v; ST.min = Math.min((ST.min || 0) + 2 / 60, 60); persist();
 };
 setInterval(saveLast, 2000); addEventListener('pagehide', saveLast); document.addEventListener('visibilitychange', () => { if (document.hidden) saveLast(); });
 const courseP = () => { const s = SEGS(); return s.reduce((a, b) => a + b, 0) / s.length; };
 const whereText = () => {
   const L = ST.last; if (!L) return 'Sin empezar';
-  const sl = $$('.slide')[L.s]; if (!sl) return 'Sigue donde quedaste';
+  const sl = L.k && $(`.slide[data-key="${L.k}"]`); if (!sl) return /^d/.test(L.k || '') ? 'Vas en el diagnóstico' : 'Sigue donde quedaste';
   if (sl.dataset.kind === 'video') return `Vas en la cápsula ${+sl.dataset.i + 1} · ${fmtT(L.t || 0)}`;
-  return { ex: 'Vas en un repaso', meta: 'Vas en la reflexión', practice: 'Vas en la práctica', feedback: 'Vas en tu opinión', project: 'Vas en el proyecto final' }[sl.dataset.kind] || 'Casi terminas';
+  return { diag: 'Vas en el diagnóstico', dres: 'Listo para la cápsula 1', ex: 'Vas en un repaso', meta: 'Vas en la reflexión', practice: 'Vas en la práctica', feedback: 'Vas en tu opinión', project: 'Vas en el proyecto final' }[sl.dataset.kind] || 'Casi terminas';
 };
 const renderLibrary = () => {
   $('#lib-hi').textContent = `Hola de nuevo, ${NAME()}`;
@@ -1201,7 +1118,7 @@ const renderLibrary = () => {
   $$('#libs [data-other]').forEach((b) => b.addEventListener('click', () => toast('Próximamente en Píldora')));
 };
 $('#b-back').addEventListener('click', () => { saveLast(); $('#toast').classList.remove('on'); if (activeSlide) pauseV(activeSlide); activeSlide = null; closePanels(); renderLibrary(); show('s-library'); });
-$('#b-new').addEventListener('click', goAsk);
+$('#b-new').addEventListener('click', startChat);
 $('#b-logout').addEventListener('click', () => { try { localStorage.removeItem(SKEY); } catch {} location.reload(); });
 
 // ---------- confeti ----------
@@ -1217,9 +1134,9 @@ const confetti = () => {
 (ST.done || []).forEach((k) => done.add(k)); prog.steps = done.size; practicePassed = !!ST.pp; projectPassed = !!ST.pj; if (Array.isArray(ST.pv) && ST.pv.length === 6) prog.v = ST.pv; prog.ex = { ...(ST.ex || {}) };
 if (ST.logged) {
   if (ST.started) openCourse(true);
-  else if (ST.bought) startDiagOrCourse();
+  else if (ST.bought) openCourse(false);
   else if (ST.onboarded) openShop();
-  else goAsk();
+  else startChat();
 }
 window.pildora = { ST, renderEx };
 })();
